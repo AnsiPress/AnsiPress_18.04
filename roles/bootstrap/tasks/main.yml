@@ -10,3 +10,18 @@
 # Execute apt-get dist-upgrade
 - name: Executing apt-get dist-upgrade command, Hold on...
   apt: upgrade=dist
+
+# Install Required Software
+- name: Installing required software, Hold on...
+  apt: name={{ item }} state=present
+  with_items:
+    - bc
+    - tar
+    - sudo
+    - wget
+    - curl
+    - git
+    - htop
+    - coreutils
+    - python-software-properties
+    - software-properties-common
