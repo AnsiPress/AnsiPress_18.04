@@ -6,3 +6,7 @@
 # Execute apt-get update only if apt-get cache is older then 24 hours
 - name: Executing apt-get update command, Hold on...
   apt: update_cache=yes cache_valid_time=86400
+
+# Execute apt-get dist-upgrade
+- name: Executing apt-get dist-upgrade command, Hold on...
+  apt: upgrade=dist
