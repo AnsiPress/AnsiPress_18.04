@@ -1,0 +1,6 @@
+---
+- name: Welcome to AnsiPress Setup
+  hosts: AnsiPress
+
+  roles:
+    - bootstrap
