@@ -4,3 +4,4 @@
 
   roles:
     - bootstrap
+    - reboot
