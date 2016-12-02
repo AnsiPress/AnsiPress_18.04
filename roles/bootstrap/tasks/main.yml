@@ -3,6 +3,10 @@
 - name: Executing ping command, Hold on...
   ping:
 
+# Setup FQDN
+- name: Setup FQDN, Hold on...
+  hostname: name={{ inventory_hostname }}
+
 # Execute apt-get update only if apt-get cache is older then 24 hours
 - name: Executing apt-get update command, Hold on...
   apt: update_cache=yes cache_valid_time=86400
@@ -25,3 +29,26 @@
     - coreutils
     - python-software-properties
     - software-properties-common
+
+# Check For Reboot Required
+- name: Checking For Reboot Required, Hold on...
+  shell: if [ -f /var/run/reboot-required ]; then echo 'reboot'; else echo 'no'; fi
+  ignore_errors: true
+  register: reboot_hint
+
+# Restart System
+# Guide async/poll - http://docs.ansible.com/ansible/playbooks_async.html
+- name: Restarting System, Hold on...
+  shell:  sleep 2 && /sbin/shutdown -r now "Ansible rebooting system to complete system package upgrade process"
+          removes=/var/run/reboot-required
+  async: 1
+  poll: 0
+  ignore_errors: true
+  when: reboot_hint.stdout.find("reboot") != -1
+
+# Initializing System Boot Process
+- name: Initializing System Boot Process, Hold on...
+  local_action: wait_for host={{ ansible_host }}
+                state=started
+                timeout=200
+  when: reboot_hint.stdout.find("reboot") != -1
