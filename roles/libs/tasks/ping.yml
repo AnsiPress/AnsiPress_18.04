@@ -1,0 +1,4 @@
+---
+# Make sure Ansible is connect to the server
+- name: Executing ping command, Hold on...
+  ping:

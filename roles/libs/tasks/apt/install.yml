@@ -1,0 +1,5 @@
+---
+# Install Required Software
+- name: Installing required software, Hold on...
+  apt: name={{ item }} state=present
+  with_items: "{{ packages }}"
