@@ -1,31 +1,6 @@
 ---
-# Make sure Ansible is connect to the server
-- name: Executing ping command, Hold on...
-  ping:
-
-# Setup FQDN
-- name: Setup FQDN, Hold on...
-  hostname: name={{ inventory_hostname }}
-
-# Execute apt-get update only if apt-get cache is older then 24 hours
-- name: Executing apt-get update command, Hold on...
-  apt: update_cache=yes cache_valid_time=86400
-
-# Execute apt-get dist-upgrade
-- name: Executing apt-get dist-upgrade command, Hold on...
-  apt: upgrade=dist
-
-# Install Required Software
-- name: Installing required software, Hold on...
-  apt: name={{ item }} state=present
-  with_items:
-    - bc
-    - tar
-    - sudo
-    - wget
-    - curl
-    - git
-    - htop
-    - coreutils
-    - python-software-properties
-    - software-properties-common
+- include: roles/libs/tasks/ping.yml
+- include: roles/libs/tasks/hostname.yml
+- include: roles/libs/tasks/apt/update.yml
+- include: roles/libs/tasks/apt/dist_upgrade.yml
+- include: roles/libs/tasks/apt/install.yml

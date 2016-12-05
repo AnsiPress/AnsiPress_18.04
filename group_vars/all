@@ -2,3 +2,14 @@
 
 ansible_python_interpreter: /usr/bin/python3
 remote_user: root
+packages:
+  - bc
+  - tar
+  - sudo
+  - wget
+  - curl
+  - git
+  - htop
+  - coreutils
+  - python-software-properties
+  - software-properties-common
