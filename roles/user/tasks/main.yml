@@ -1,4 +1,4 @@
 ---
 # Setup User Account
 - name: Setting up User Account, Hold on...
-  user: name=HetalTheGreat shell=/bin/bash
+  user: name={{ username }} password={{ password }} shell=/bin/bash

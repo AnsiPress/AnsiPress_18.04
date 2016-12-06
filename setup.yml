@@ -3,6 +3,16 @@
   hosts: AnsiPress
 
   roles:
-    - bootstrap
-    - reboot
+#    - bootstrap
+#    - reboot
     - user
+
+  vars_prompt:
+    - name:   "name"
+      prompt: "Enter username: "
+      private: no
+    - name:   "password"
+      prompt: "Enter password: "
+      encrypt: "md5_crypt"
+      salt_size: 8
+      private: yes
