@@ -8,7 +8,7 @@
     - user
 
   vars_prompt:
-    - name:   "name"
+    - name:   "username"
       prompt: "Enter username: "
       private: no
     - name:   "password"
