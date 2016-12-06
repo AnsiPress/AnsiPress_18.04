@@ -3,8 +3,8 @@
   hosts: AnsiPress
 
   roles:
-#    - bootstrap
-#    - reboot
+    - bootstrap
+    - reboot
     - user
 
   vars_prompt:
