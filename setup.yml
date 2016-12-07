@@ -9,10 +9,10 @@
 
   vars_prompt:
     - name:   "username"
-      prompt: "Enter username: "
+      prompt: "AnsiPress Required Following Information:\nEnter username"
       private: no
     - name:   "password"
-      prompt: "Enter password: "
+      prompt: "Enter password"
       encrypt: "md5_crypt"
       salt_size: 8
       private: yes
