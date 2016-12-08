@@ -14,7 +14,7 @@ $ cd AnsiPress
 #### Run the AnsiPress Playbook
 
 ```
-$ ansible-playbook -i hosts setup.yml -v
+$ ansible-playbook -i hosts setup.yml --extra-vars="username=AnsiPress" -v
 ```
 
 [![PayPal Donate](https://cloud.githubusercontent.com/assets/1223371/20793214/ec6ffca2-b7eb-11e6-9614-d893ff77a565.png)]  (https://paypal.me/AnsiPress)

@@ -1,7 +1,14 @@
 # Bootstrap Variable Setup
 
-ansible_python_interpreter: /usr/bin/python3
 remote_user: root
+ansible_python_interpreter: /usr/bin/python3
+
+# Create New User Account
+# We can also pass username variable value using following command
+# ansible-playbook -i hosts -e user_name=mi setup.yml --extra-vars="username=AnsiPress" -v
+username:
+
+# Install Required Packages
 packages:
   - bc
   - tar
