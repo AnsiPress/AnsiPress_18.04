@@ -3,7 +3,7 @@
   hosts: AnsiPress
 
   roles:
-#    - bootstrap
-#    - reboot
-#    - user
+    - bootstrap
+    - reboot
+    - user
     - mariadb
