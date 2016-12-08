@@ -1,4 +1,4 @@
 ---
-# Execute apt-get update only if apt-get cache is older then 24 hours
+# Execute apt-get update
 - name: Executing apt-get update command, Hold on...
-  apt: update_cache=yes cache_valid_time=86400
+  apt: update_cache=yes

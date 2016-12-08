@@ -18,5 +18,7 @@ packages:
   - git
   - htop
   - coreutils
+  - python3-dev
+  - python3-pip
   - python-software-properties
   - software-properties-common

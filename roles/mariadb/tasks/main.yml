@@ -1,0 +1,39 @@
+---
+- name: Add MariaDB Repository, Hold on...
+  apt_repository: repo='deb [arch=amd64,i386,ppc64el] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu {{ ansible_distribution_release }} main' state=present filename=mariadb
+  register: mariadb_repo
+
+- name: Add MariaDB Repository Key, Hold on...
+  apt_key: keyserver=keyserver.ubuntu.com id=0xF1656F24C74CD1D8
+  register: mariadb_key
+
+- include: roles/libs/tasks/apt/update.yml
+  when: mariadb_repo.changed == True or mariadb_key.changed == True
+
+- name: Install MariaDB, Hold on...
+  apt: name={{ item }} state=present
+  with_items:
+    - mariadb-server
+    - mariadb-client
+    - libmysqlclient-dev
+  register: package_install
+  notify: service restart
+
+# To Secure MariaDB Installation
+# We first have to set root user password
+# For MariaDB root user password setup we need following things
+# Packages: python3-dev python3-pip & mysqlclient
+# Pyhton mysqlclient support Python3.x
+# Refer - https://github.com/PyMySQL/mysqlclient-python
+- name: Installing Python mysqlclient package, Hold on...
+  pip: name=mysqlclient state=present
+
+- include: roles/libs/tasks/random_password.yml
+  when: package_install.changed == True
+
+- name: Setup MariaDB root password, Hold on...
+  mysql_user: name=root password={{ random_password.stdout }} state=present  host_all=yes
+  when: package_install.changed == True
+
+- name: Creating /root/.my.cnf file, Hold on...
+  template: src=my.cnf dest=/root/.my.cnf owner=root group=root mode=0600

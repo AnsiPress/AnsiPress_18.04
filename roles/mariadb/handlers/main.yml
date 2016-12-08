@@ -1,0 +1,2 @@
+---
+- include: roles/libs/tasks/service.yml service_name=mariadb
