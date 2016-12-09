@@ -1,4 +1,4 @@
 ---
 # Restart services
-- name: service restart
+- name: service {{ service_name }} restart
   service: name={{ service_name }} state=restarted enabled=yes

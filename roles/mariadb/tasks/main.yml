@@ -17,7 +17,8 @@
     - mariadb-client
     - libmysqlclient-dev
   register: package_install
-  notify: service restart
+  # The notify will call the ../handlers/main.yml
+  notify: service mariadb restart
 
 # To Secure MariaDB Installation
 # We first have to set root user password
