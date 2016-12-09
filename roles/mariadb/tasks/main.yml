@@ -10,7 +10,7 @@
 - include: roles/libs/tasks/apt/update.yml
   when: mariadb_repo.changed == True or mariadb_key.changed == True
 
-- name: Install MariaDB, Hold on...
+- name: Installing MariaDB, Hold on...
   apt: name={{ item }} state=present
   with_items:
     - mariadb-server
@@ -37,3 +37,4 @@
 
 - name: Creating /root/.my.cnf file, Hold on...
   template: src=my.cnf dest=/root/.my.cnf owner=root group=root mode=0600
+  when: package_install.changed == True
