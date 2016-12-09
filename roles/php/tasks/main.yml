@@ -1,5 +1,5 @@
 ---
-- name: Add PHP Repository, Hold on...
+- name: Adding PHP Repository, Hold on...
   apt_repository: repo=ppa:ondrej/php
   register: php_repo
 
