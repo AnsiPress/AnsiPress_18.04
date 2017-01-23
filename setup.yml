@@ -6,6 +6,6 @@
     - bootstrap
     - reboot
     - user
-    - mariadb
-    - php
     - nginx
+    - php
+    - mariadb
