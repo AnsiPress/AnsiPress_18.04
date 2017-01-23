@@ -39,3 +39,24 @@
 - name: Creating /root/.my.cnf file, Hold on...
   template: src=my.cnf dest=/root/.my.cnf owner=root group=root mode=0600
   when: package_install.changed == True
+
+- name: Tunning MySQL [connect_timeout], Hold on...
+  lineinfile:
+    dest: /etc/mysql/my.cnf
+    regexp: '^connect_timeout'
+    line: 'connect_timeout         = 30'
+  when: package_install.changed == True
+
+- name: Tunning MySQL [wait_timeout], Hold on...
+  lineinfile:
+    dest: /etc/mysql/my.cnf
+    regexp: '^wait_timeout'
+    line: 'wait_timeout            = 60'
+  when: package_install.changed == True
+
+- name: Installing MySQLTunner Script, Hold on...
+  get_url:
+    url:  http://mysqltuner.pl/
+    dest: /usr/local/bin/mysqltuner
+    mode: 755
+  when: package_install.changed == True
