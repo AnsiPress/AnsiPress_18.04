@@ -28,3 +28,71 @@
   register: package_install
   # The notify will call the ../handlers/main.yml
   notify: service php7.1-fpm restart
+
+- name: Creating PHP Log Directory, Hold on...
+  file:
+    path: /var/log/php/
+    state: directory
+    mode: 0755
+
+- name: Tunning php.ini Variables, Hold on...
+  lineinfile:
+    dest: /etc/php/7.1/fpm/php.ini
+    regexp: "{{ item.regexp }}"
+    backrefs: yes
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^expose_php', line: 'expose_php = Off' }
+    - { regexp: '^post_max_size', line: 'post_max_size = 100M' }
+    - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 100M' }
+    - { regexp: '^max_execution_time', line: 'max_execution_time = 300' }
+    - { regexp: '^;date.timezone', line: 'date.timezone = {{ timezone }}' }
+  when: package_install.changed == True
+
+- name: Change PHP-FPM Log Location, Hold on...
+  lineinfile:
+    dest: /etc/php/7.1/fpm/php-fpm.conf
+    regexp: '^error_log'
+    backrefs: yes
+    line: 'error_log = /var/log/php/fpm.log'
+
+- name: Tunning PHP WWW Pool Variables, Hold on...
+  lineinfile:
+    dest: /etc/php/7.1/fpm/pool.d/www.conf
+    regexp: "{{ item.regexp }}"
+    backrefs: yes
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^listen = ', line: 'listen = 127.0.0.1:9000' }
+    - { regexp: '^;ping.path', line: 'ping.path = /ping' }
+    - { regexp: '^;ping.response', line: 'ping.response = pong' }
+    - { regexp: '^;pm.status_path', line: 'pm.status_path = /status' }
+    - { regexp: '^;request_terminate_timeout', line: 'request_terminate_timeout = 300' }
+    - { regexp: '^pm = dynamic', line: 'pm = ondemand' }
+    - { regexp: '^;pm.max_requests', line: 'pm.max_requests = 500' }
+    - { regexp: '^pm.max_children', line: 'pm.max_children = 25' }
+    - { regexp: '^pm.start_servers', line: 'pm.start_servers = 20' }
+    - { regexp: '^pm.min_spare_servers', line: 'pm.min_spare_servers = 10' }
+    - { regexp: '^pm.max_spare_servers', line: 'pm.max_spare_servers = 30' }
+  when: package_install.changed == True
+
+- name: Creating PHP Debug Pool, Hold on...
+  shell: cp -av /etc/php/7.1/fpm/pool.d/www.conf /etc/php/7.1/fpm/pool.d/debug.conf
+# Ansible Copy Module bug https://github.com/ansible/ansible/issues/14341#issuecomment-275057426
+#  copy:
+#    src: /etc/php/7.1/fpm/pool.d/www.conf
+#    dest: /etc/php/7.1/fpm/pool.d/debug.conf
+  when: package_install.changed == True
+
+- name: Tunning PHP Debug Pool Variables, Hold on...
+  lineinfile:
+    dest: /etc/php/7.1/fpm/pool.d/debug.conf
+    regexp: "{{ item.regexp }}"
+    backrefs: yes
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^listen = 127.0.0.1:9000', line: 'listen = 127.0.0.1:9001' }
+    - { regexp: '^;slowlog', line: 'slowlog = /var/log/php/$pool.log.slow' }
+    - { regexp: '^;request_slowlog_timeout', line: 'request_slowlog_timeout = 10s' }
+    - { regexp: '^;php_admin_value\[memory_limit\]', line: ";php_admin_value[memory_limit] = 32M \nphp_admin_value[xdebug.profiler_output_dir] = /tmp/ \nphp_admin_value[xdebug.profiler_output_name] = cachegrind.out.%p-%H-%R \nphp_admin_flag[xdebug.profiler_enable_trigger] = on \nphp_admin_flag[xdebug.profiler_enable] = off" }
+  when: package_install.changed == True
