@@ -1,5 +1,7 @@
 # AnsiPress
 
+[![Join AnsiPress Slack Channel](https://ansipress.herokuapp.com/badge.svg)](https://ansipress.herokuapp.com/)
+
 ## Quick Start
 
 #### Ansible - [Install Ansible] (https://miteshshah.github.io/devops/ansible/ansible-installation/)
