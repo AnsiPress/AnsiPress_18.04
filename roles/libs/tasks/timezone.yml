@@ -1,0 +1,4 @@
+---
+# Setup TimeZone
+- name: Set Timezone to UTC, Hold on...
+  timezone: name={{ timezone }}
