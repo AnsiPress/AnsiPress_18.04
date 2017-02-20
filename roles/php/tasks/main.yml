@@ -77,11 +77,12 @@
   when: package_install.changed == True
 
 - name: Creating PHP Debug Pool, Hold on...
-  shell: cp -av /etc/php/7.1/fpm/pool.d/www.conf /etc/php/7.1/fpm/pool.d/debug.conf
-# Ansible Copy Module bug https://github.com/ansible/ansible/issues/14341#issuecomment-275057426
-#  copy:
-#    src: /etc/php/7.1/fpm/pool.d/www.conf
-#    dest: /etc/php/7.1/fpm/pool.d/debug.conf
+#  shell: cp -av /etc/php/7.1/fpm/pool.d/www.conf /etc/php/7.1/fpm/pool.d/debug.conf
+#  Ansible Copy Module bug https://github.com/ansible/ansible/issues/14341#issuecomment-275057426
+  copy:
+    src: /etc/php/7.1/fpm/pool.d/www.conf
+    dest: /etc/php/7.1/fpm/pool.d/debug.conf
+    remote_src: true
   when: package_install.changed == True
 
 - name: Tunning PHP Debug Pool Variables, Hold on...
@@ -91,6 +92,7 @@
     backrefs: yes
     line: "{{ item.line }}"
   with_items:
+    - { regexp: '^\[www\]', line: "[debug]" }
     - { regexp: '^listen = 127.0.0.1:9000', line: 'listen = 127.0.0.1:9001' }
     - { regexp: '^;slowlog', line: 'slowlog = /var/log/php/$pool.log.slow' }
     - { regexp: '^;request_slowlog_timeout', line: 'request_slowlog_timeout = 10s' }
