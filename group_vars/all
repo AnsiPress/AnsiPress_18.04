@@ -26,5 +26,6 @@ packages:
   - coreutils
   - python3-dev
   - python3-pip
+  - python3-passlib
   - python-software-properties
   - software-properties-common
