@@ -11,3 +11,9 @@
   register: package_install
   # The notify will call the ../handlers/main.yml
   notify: service nginx restart
+
+- name: Coping AnsiPress NGINX Files, Hold on...
+  copy:
+    src: ../templates/ansipress
+    dest: /etc/nginx/
+  when: package_install.changed == True
