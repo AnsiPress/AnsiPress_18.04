@@ -1,0 +1,6 @@
+---
+- name: Installing WP-CLI Tool, Hold on...
+  get_url:
+    url:  https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+    dest: /usr/local/bin/wpcli
+    mode: 755
