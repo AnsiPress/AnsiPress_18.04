@@ -1,0 +1,6 @@
+---
+- name: Initialize Site Playbook, Hold on...
+  hosts: AnsiPress
+
+  roles:
+    - user

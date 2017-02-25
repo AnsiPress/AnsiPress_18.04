@@ -1,0 +1,8 @@
+---
+- name: Initialize Stack Playbook, Hold on...
+  hosts: AnsiPress
+
+  roles:
+    - nginx
+    - php
+    - mariadb

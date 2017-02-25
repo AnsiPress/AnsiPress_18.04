@@ -1,0 +1,6 @@
+---
+- name: Initialize Reboot Playbook, Hold on...
+  hosts: AnsiPress
+
+  roles:
+    - reboot
