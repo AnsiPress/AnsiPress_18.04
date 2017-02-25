@@ -2,10 +2,7 @@
 - name: Welcome to AnsiPress Setup
   hosts: AnsiPress
 
-  roles:
-    - bootstrap
-    - reboot
-    - user
-    - nginx
-    - php
-    - mariadb
+- include: bootstrap.yml
+- include: reboot.yml
+- include: stack.yml
+- include: site.yml
