@@ -1,4 +1,7 @@
 ---
+# Calculate PHP Pool Number for Given Username
+- include: roles/libs/tasks/php_pool.yml
+
 - name: Check & Setup NGINX Configuration for HTML, PHP or MySQL website, Hold on...
   template: src=nginx/{{ website_type | lower }}/basic.conf dest=/etc/nginx/sites-available/{{ website_name | lower }}.conf
   when: website_type == "html" or website_type == "php" or website_type == "mysql" or website_type == "HTML" or website_type == "PHP" or website_type == "MYSQL"
