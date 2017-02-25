@@ -16,3 +16,5 @@
     - { regexp: '^user = www-data', line: 'user = {{ username | lower }}' }
     - { regexp: '^group = www-data', line: 'group = {{ username | lower }}' }
     - { regexp: '^listen = 127.0.0.1:9000', line: 'listen = 127.0.0.1:{{ php_pool.stdout }};' }
+  # The notify will call the ../handlers/main.yml
+  notify: service php7.1-fpm reload

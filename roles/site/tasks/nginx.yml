@@ -1,14 +1,46 @@
 ---
+- name: Checking /etc/nginx/sites-available/{{ website_name | lower }}.conf, Hold on
+  stat:
+    path: /etc/nginx/sites-available/{{ website_name | lower }}.conf
+  register: site_config
+
 - name: Check & Setup NGINX Configuration for HTML, PHP or MySQL website, Hold on...
   template: src=nginx/{{ website_type | lower }}/basic.conf dest=/etc/nginx/sites-available/{{ website_name | lower }}.conf
-  when: website_type == "html" or website_type == "php" or website_type == "mysql" or website_type == "HTML" or website_type == "PHP" or website_type == "MYSQL"
+  when: site_config.stat.islnk is not defined and (website_type == "html" or website_type == "php" or website_type == "mysql" or website_type == "HTML" or website_type == "PHP" or website_type == "MYSQL")
 
 - name: Check & Setup NGINX Configuration for WordPress website, Hold on...
   template: src=nginx/wordpress/{{ website_type | lower }}.conf dest=/etc/nginx/sites-available/{{ website_name | lower }}.conf
-  when: website_type == "wp" or website_type == "w3tc" or website_type == "wpfc" or website_type == "WP" or website_type == "W3TC" or website_type == "WPFC"
+  when: site_config.stat.islnk is not defined and (website_type == "wp" or website_type == "w3tc" or website_type == "wpfc" or website_type == "WP" or website_type == "W3TC" or website_type == "WPFC")
 
 - name: Enabling {{ website_name | lower }} Website, Hold on...
   file:
     src: /etc/nginx/sites-available/{{ website_name | lower }}.conf
     dest: /etc/nginx/sites-enabled/{{ website_name | lower }}.conf
     state: link
+  when: site_config.stat.islnk is not defined
+  # The notify will call the ../handlers/main.yml
+  notify: service nginx reload
+
+- name: Creating Webroot & Logs Direcroty, Hold on...
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username | lower }}"
+    group: "{{ username | lower }}"
+  with_items:
+    - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/htdocs
+    - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/ssl
+    - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/conf
+    - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/logs
+
+- name: Creating Symbolic Link for Logs, Hold on...
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ username | lower }}"
+    group: "{{ username | lower }}"
+    force: yes
+    state: link
+  with_items:
+    - { src: "/var/log/nginx/{{ website_name | lower }}.access.log", dest: "/home/{{ username | lower }}/vhosts/{{ website_name | lower }}/logs/access.log" }
+    - { src: "/var/log/nginx/{{ website_name | lower }}.error.log", dest: "/home/{{ username | lower }}/vhosts/{{ website_name | lower }}/logs/error.log" }
