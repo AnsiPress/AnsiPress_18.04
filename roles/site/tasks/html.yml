@@ -1,14 +1,19 @@
 ---
-- name: Checking /etc/nginx/sites-available/{{ website_name | lower }}.conf, Hold on
+# We need PHP Pool Number
+# In Order to setup PHP/MySQL/WordPress website template
+# We need to replace php_pool variable on those templates
+- include: roles/libs/tasks/php_pool.yml
+
+- name: Check /etc/nginx/sites-available/{{ website_name | lower }}.conf, Hold on...
   stat:
     path: /etc/nginx/sites-available/{{ website_name | lower }}.conf
   register: site_config
 
-- name: Check & Setup NGINX Configuration for HTML, PHP or MySQL website, Hold on...
+- name: Setup HTML, PHP or MySQL website NGINX Configuration, Hold on...
   template: src=nginx/{{ website_type | lower }}/basic.conf dest=/etc/nginx/sites-available/{{ website_name | lower }}.conf
   when: site_config.stat.islnk is not defined and (website_type == "html" or website_type == "php" or website_type == "mysql" or website_type == "HTML" or website_type == "PHP" or website_type == "MYSQL")
 
-- name: Check & Setup NGINX Configuration for WordPress website, Hold on...
+- name: Setup WordPress website NGINX Configuration, Hold on...
   template: src=nginx/wordpress/{{ website_type | lower }}.conf dest=/etc/nginx/sites-available/{{ website_name | lower }}.conf
   when: site_config.stat.islnk is not defined and (website_type == "wp" or website_type == "w3tc" or website_type == "wpfc" or website_type == "WP" or website_type == "W3TC" or website_type == "WPFC")
 
@@ -21,7 +26,7 @@
   # The notify will call the ../handlers/main.yml
   notify: service nginx reload
 
-- name: Creating Webroot & Logs Direcroty, Hold on...
+- name: Setup Webroot & Logs Direcroty, Hold on...
   file:
     path: "{{ item }}"
     state: directory
@@ -33,7 +38,7 @@
     - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/conf
     - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/logs
 
-- name: Creating Symbolic Link for Logs, Hold on...
+- name: Setup Symbolic Link for Logs, Hold on...
   file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"

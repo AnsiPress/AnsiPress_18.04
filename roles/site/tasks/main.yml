@@ -1,6 +1,2 @@
 ---
-- include: roles/libs/tasks/php_pool.yml
-- include: roles/site/tasks/nginx.yml
-- include: roles/site/tasks/php.yml
-- include: roles/site/tasks/wpcli.yml
 - include: roles/site/tasks/{{ website_type | lower }}.yml

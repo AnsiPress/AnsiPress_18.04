@@ -1,5 +1,5 @@
 ---
 # Calculate PHP Pool Number for Username
-- name: Generating Random Password, Hold on...
+- name: Calculate PHP Pool Number, Hold on...
   shell: echo $(id -u {{ username | lower }} )+8010 | bc
   register: php_pool

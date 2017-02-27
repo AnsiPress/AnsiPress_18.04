@@ -1,4 +1,6 @@
 ---
+- include: roles/site/tasks/php.yml
+
 # Generate MySQL DB Name
 - name: "Generate MySQl DB Name, Hold on..."
   shell: echo "{{ website_name | lower }}" | tr '.' '_'
@@ -24,6 +26,6 @@
     priv: "{{ db_name.stdout }}.*:ALL"
     state: present
 
-- name: MySQL Only Website, Hold on...
+- name: Generate Databae Config File for MySQL Website, Hold on...
   template: src=mysql/config.php dest=/home/{{ username | lower }}/vhosts/{{ website_name | lower }}/config.php
   when: website_type == "mysql" or website_type == "MYSQL"

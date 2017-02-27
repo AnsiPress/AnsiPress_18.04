@@ -1,4 +1,6 @@
 ---
+- include: roles/site/tasks/html.yml
+
 - name: Creating PHP {{ username | lower }} Pool, Hold on...
   copy:
     src: /etc/php/7.1/fpm/pool.d/www.conf
