@@ -16,7 +16,12 @@ $ cd AnsiPress
 #### Run the AnsiPress Playbook
 
 ```
-$ ansible-playbook -i hosts setup.yml --extra-vars="username=AnsiPress website_name=AnsiPress.local website_type=wpfc" -vvvv
+$ ansible-playbook -i hosts setup.yml --extra-vars="username=html website_name=html.com website_type=html"
+$ ansible-playbook -i hosts setup.yml --extra-vars="username=php website_name=php.com website_type=php"
+$ ansible-playbook -i hosts setup.yml --extra-vars="username=mysql website_name=mysql.com website_type=mysql"
+$ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=wp.com website_type=wp"
+$ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=w3tc.com website_type=w3tc"
+$ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=wpfc.com website_type=wpfc"
 ```
 
 [![PayPal Donate](https://cloud.githubusercontent.com/assets/1223371/20793214/ec6ffca2-b7eb-11e6-9614-d893ff77a565.png)]  (https://paypal.me/AnsiPress)

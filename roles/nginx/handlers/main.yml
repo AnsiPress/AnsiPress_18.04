@@ -1,5 +1,0 @@
----
-# We had include service restart module
-# Also we have to passs service_name variable which trigger
-# service {{ service_name }} restart
-- include: roles/libs/tasks/service.yml service_name=nginx

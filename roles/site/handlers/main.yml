@@ -1,6 +1,0 @@
----
-- name: service nginx reload
-  service: name=nginx state=reloaded
-
-- name: service php7.1-fpm reload
-  service: name=php7.1-fpm state=reloaded

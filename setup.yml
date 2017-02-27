@@ -2,7 +2,8 @@
 - name: Welcome to AnsiPress Setup
   hosts: AnsiPress
 
-- include: bootstrap.yml
-- include: reboot.yml
-- include: stack.yml
-- include: site.yml
+  roles:
+    - bootstrap
+    - reboot
+    - user
+    - website

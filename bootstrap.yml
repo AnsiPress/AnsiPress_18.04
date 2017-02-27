@@ -1,6 +1,0 @@
----
-- name: Initialize Bootstrap Playbook, Hold on...
-  hosts: AnsiPress
-
-  roles:
-    - bootstrap

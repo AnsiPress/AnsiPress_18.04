@@ -1,2 +1,0 @@
----
-- include: roles/site/tasks/{{ website_type | lower }}.yml
