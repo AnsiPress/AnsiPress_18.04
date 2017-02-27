@@ -25,18 +25,6 @@
     password: 'AnsiPress'
   when: package_install.changed == True
 
-# In order to allow nginx-helper delete NGINX cache Files
-# We need to change chmod -R 777 /var/run/nginx-cache
-# As each website has own separate users and that users need permission to
-# Remove cached files from this directory
-- name: Fix NGINX Cache Didrectory Permission, Hold On
-  file:
-    path: /var/run/nginx-cache
-    state: directory
-    recurse: yes
-    mode: 0777
-  when: package_install.changed == True
-
 # We need PHP Pool Number
 # In Order to setup PHP/MySQL/WordPress website template
 # We need to replace php_pool variable on those templates

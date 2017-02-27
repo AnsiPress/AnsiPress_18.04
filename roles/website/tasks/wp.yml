@@ -31,6 +31,13 @@
 - name: Setup WordPress Permalink, Hold on...
   shell: cd /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/htdocs/ && wpcli rewrite structure --allow-root /%year%/%monthnum%/%day%/%postname%/
 
+- name: Downloading NGINX Cache Purge Script, Hold on...
+  get_url:
+    url:  https://raw.githubusercontent.com/AnsiPress/AnsiTools/master/cache/purge.php
+    dest: /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/htdocs/
+    mode: 644
+  when: website_type == "wpfc" or website_type == "WPFC"
+
 - name: Fixing WordPress Permissions, Hold On
   file:
     path: /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/
