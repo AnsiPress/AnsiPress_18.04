@@ -10,8 +10,16 @@
 
 ```
 $ git clone git@github.com:AnsiPress/AnsiPress.git
+$ git checkout develop
 $ cd AnsiPress
 ```
+
+#### Setup SSH Server Login Details
+
+* AnsiPress required you can login to remote server via `ssh AnsiPress.local`
+* Change the [AnsiPerss.local] (https://github.com/AnsiPress/AnsiPress/blob/develop/hosts#L2) server name
+* Make sure you are able to connect server via `ssh example.com`
+* Refer - [SSH Configuration] (https://miteshshah.github.io/linux/ssh/ssh-tips-and-tricks/#ssh-config)
 
 #### Run the AnsiPress Playbook
 
