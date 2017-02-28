@@ -2,7 +2,7 @@
 # Setup NGINX PlayBook
 
 - name: Adding NGINX Repository, Hold on...
-  apt_repository: repo=ppa:miteshshah/nginx-pagespeed
+  apt_repository: repo=ppa:ansipress/nginx
   register: nginx_repo
 
 - include: roles/libs/tasks/apt/update.yml
