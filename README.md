@@ -2,7 +2,29 @@
 
 [![saythanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)](https://saythanks.io/to/MiteshShah) [![Join AnsiPress Slack Channel](https://ansipress.herokuapp.com/badge.svg)](https://ansipress.herokuapp.com/)
 
+
 ## Quick Start
+
+**Operating System:**
+
+- ✓ Ubuntu 16.04
+- ⚠	Debian 8 & 9
+- ⚠ CentOS 7
+
+✓ = Supported OS
+
+⚠ = Under Progress
+
+**Port Requirements:**
+
+| Name  | Port Number | Inbound | Outbound  |
+|:-----:|:-----------:|:-------:|:---------:|
+|SSH    |22           | ✓       |✓          |
+|HTTP    |80           | ✓       |✓          |
+|HTTPS/SSL    |443           | ✓       |✓          |
+|GPG Key Server    |11371           |        |✓          |
+
+
 
 #### Ansible - [Install Ansible] (https://miteshshah.github.io/devops/ansible/ansible-installation/)
 
@@ -10,8 +32,7 @@
 
 ```
 $ git clone git@github.com:AnsiPress/AnsiPress.git
-$ git checkout develop
-$ cd AnsiPress
+$ cd AnsiPress && git checkout develop
 ```
 
 #### Setup SSH Server Login Details
@@ -25,12 +46,21 @@ $ cd AnsiPress
 
 ```
 $ ansible-playbook -i hosts setup.yml --extra-vars="username=html website_name=html.com website_type=html"
+
 $ ansible-playbook -i hosts setup.yml --extra-vars="username=php website_name=php.com website_type=php"
+
 $ ansible-playbook -i hosts setup.yml --extra-vars="username=mysql website_name=mysql.com website_type=mysql"
+
 $ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=wp.com website_type=wp"
+
 $ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=w3tc.com website_type=w3tc"
+
 $ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=wpfc.com website_type=wpfc"
 ```
+
+#### Track Development
+
+[Milestone] (https://github.com/AnsiPress/AnsiPress/milestones)
 
 #### Donation
 [![PayPal Donate](https://cloud.githubusercontent.com/assets/1223371/20793214/ec6ffca2-b7eb-11e6-9614-d893ff77a565.png)]  (https://paypal.me/AnsiPress)
