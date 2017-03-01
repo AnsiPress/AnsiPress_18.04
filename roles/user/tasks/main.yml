@@ -1,4 +1,4 @@
 ---
 # Setup User Account
-- name: Setting up User Account, Hold on...
-  user: name={{ username }} shell=/bin/bash
+- name: Setup User Account, Hold on...
+  user: name={{ username | lower }} shell=/bin/bash

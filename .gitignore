@@ -1,2 +1,3 @@
 *.log
 *.retry
+*.DS_Store

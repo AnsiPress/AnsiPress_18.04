@@ -2,3 +2,8 @@
 # Make sure Ansible is connect to the server
 - name: Executing ping command, Hold on...
   ping:
+
+# Make sure remote system nameserver was properly configure
+# And remote system able to reach public network
+- name: Checking Network Connection, Hold on...
+  shell: ping -c2 google.com
