@@ -1,6 +1,6 @@
 # AnsiPress
 
-[![Join AnsiPress Slack Channel](https://ansipress.herokuapp.com/badge.svg)](https://ansipress.herokuapp.com/)
+[![saythanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)](https://saythanks.io/to/MiteshShah) [![Join AnsiPress Slack Channel](https://ansipress.herokuapp.com/badge.svg)](https://ansipress.herokuapp.com/)
 
 ## Quick Start
 
@@ -32,6 +32,7 @@ $ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=w3t
 $ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=wpfc.com website_type=wpfc"
 ```
 
+#### Donation
 [![PayPal Donate](https://cloud.githubusercontent.com/assets/1223371/20793214/ec6ffca2-b7eb-11e6-9614-d893ff77a565.png)]  (https://paypal.me/AnsiPress)
 
 Yes you can! Just click on the image above ;)
