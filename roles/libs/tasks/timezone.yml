@@ -1,4 +1,9 @@
 ---
 # Setup TimeZone
+# AnsiPress Server TimeZone
+# Why you need UTC TimeZone -
+# http://yellerapp.com/posts/2015-01-12-the-worst-server-setup-you-can-make.html
+
+# Dont Forget to Update TimeZone in PHP (UTC)
 - name: Setup Timezone to UTC, Hold on...
-  timezone: name={{ timezone }}
+  timezone: name=Etc/UTC

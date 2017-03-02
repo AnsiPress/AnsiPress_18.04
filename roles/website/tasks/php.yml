@@ -49,7 +49,7 @@
     - { regexp: '^post_max_size', line: 'post_max_size = 100M' }
     - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 100M' }
     - { regexp: '^max_execution_time', line: 'max_execution_time = 300' }
-    - { regexp: '^;date.timezone', line: 'date.timezone = {{ timezone }}' }
+    - { regexp: '^;date.timezone', line: 'date.timezone = UTC' }
   when: package_install.changed == True
 
 - name: Changing PHP-FPM Log Location, Hold on...
