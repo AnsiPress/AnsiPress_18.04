@@ -55,17 +55,6 @@
   # The notify will call the ../handlers/main.yml
   notify: service nginx reload
 
-- name: Setup Webroot & Logs Direcroty, Hold on...
-  file:
-    path: "{{ item }}"
-    state: directory
-    owner: "{{ username | lower }}"
-    group: "{{ username | lower }}"
-  with_items:
-    - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/htdocs
-    - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/ssl
-    - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/conf
-    - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/logs
 
 - name: Setup Symbolic Link for Logs, Hold on...
   file:

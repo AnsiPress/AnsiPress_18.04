@@ -2,3 +2,27 @@
 # Setup User Account
 - name: Setup User Account, Hold on...
   user: name={{ username | lower }} shell=/bin/bash
+  register: setup_user
+
+# Allow NGINX to Read files
+- name: Grant NGINX Read Permissions, Hold on...
+  user:
+    name: www-data
+    groups: "{{ username | lower }}"
+    append: yes
+  when: setup_user.changed == True
+
+# https://github.com/ansible/ansible/issues/9196#issuecomment-57168074
+- name: Setup Direcroty, Hold on...
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ username | lower }}"
+    group: "{{ username | lower }}"
+    mode: "0750"
+  with_items:
+    - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/htdocs
+    - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/ssl
+    - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/conf
+    - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/logs
+  when: setup_user.changed == True

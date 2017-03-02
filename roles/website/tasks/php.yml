@@ -103,23 +103,16 @@
     - { regexp: '^;php_admin_value\[memory_limit\]', line: ";php_admin_value[memory_limit] = 32M \nphp_admin_value[xdebug.profiler_output_dir] = /tmp/ \nphp_admin_value[xdebug.profiler_output_name] = cachegrind.out.%p-%H-%R \nphp_admin_flag[xdebug.profiler_enable_trigger] = on \nphp_admin_flag[xdebug.profiler_enable] = off" }
   when: package_install.changed == True
 
+- name: Setup {{ username | lower }} Pool, Hold on...
+  template: src=php/pool.conf dest=/etc/php/7.1/fpm/pool.d/{{ username | lower }}.conf
+  when: setup_user.changed == True
 
-- name: Creating PHP {{ username | lower }} Pool, Hold on...
-  copy:
-    src: /etc/php/7.1/fpm/pool.d/www.conf
-    dest: /etc/php/7.1/fpm/pool.d/{{ username | lower }}.conf
-    remote_src: true
-
-- name: Tunning PHP {{ username | lower }} Pool Variables, Hold on...
-  lineinfile:
-    dest: /etc/php/7.1/fpm/pool.d/{{ username | lower }}.conf
-    regexp: "{{ item.regexp }}"
-    backrefs: yes
-    line: "{{ item.line }}"
+#- name: Setup php7.1-{ username | lower }} Service, Hold on...
+- template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
   with_items:
-    - { regexp: '^\[www\]', line: "[{{ username | lower }}]" }
-    - { regexp: '^user = www-data', line: 'user = {{ username | lower }}' }
-    - { regexp: '^group = www-data', line: 'group = {{ username | lower }}' }
-    - { regexp: '^listen = 127.0.0.1:9000', line: 'listen = 127.0.0.1:{{ php_pool.stdout }};' }
-  # The notify will call the ../handlers/main.yml
-  notify: service php7.1-fpm reload
+    - { src: "php/php7.1-fpm", dest: "/etc/init.d/php7.1-{{ username | lower }}" }
+    - { src: "php/php7.1-fpm.service", dest: "/lib/systemd/system/php7.1-{{ username | lower }}.service" }
+  when: setup_user.changed == True
+  notify: service php7.1-{{ username | lower }} restart

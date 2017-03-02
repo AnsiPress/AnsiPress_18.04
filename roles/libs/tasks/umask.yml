@@ -1,0 +1,9 @@
+---
+# Setup UMASK for Better Security
+- name: Setup UMASK, Hold on...
+  lineinfile:
+    dest: "/etc/profile"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^umask', line: 'umask 0027' }

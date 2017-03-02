@@ -2,8 +2,8 @@
 - name: service nginx reload
   service: name=nginx state=reloaded
 
-- name: service php7.1-fpm reload
-  service: name=php7.1-fpm state=reloaded
+- name: service php7.1-{{ username | lower }} restart
+  service: name=php7.1-{{ username | lower }} state=restarted
 
 - name: service mysql restart
   service: name=mysql state=restarted

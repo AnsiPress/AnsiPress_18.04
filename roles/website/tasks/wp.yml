@@ -39,12 +39,7 @@
   when: website_type == "wpfc" or website_type == "WPFC"
 
 - name: Fixing WordPress Permissions, Hold On
-  file:
-    path: /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/
-    state: directory
-    recurse: yes
-    owner: "{{ username | lower }}"
-    group: "{{ username | lower }}"
+  shell: find /home/{{ username | lower }}/vhosts/{{ website_name | lower }} -type d -exec chmod 750 {} \; && find /home/{{ username | lower }}/vhosts/{{ website_name | lower }} -type f -exec chmod 640 {} \;
 
 - name: Getting WordPress Setup Information, Hold on...
   debug:
