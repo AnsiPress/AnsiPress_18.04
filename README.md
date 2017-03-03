@@ -5,6 +5,9 @@
 
 ## Quick Start
 
+✓ = Under Testing
+⚠ = Under Progress
+
 ### Features
 
 ✓ True Shared Hosting
@@ -29,9 +32,6 @@
 - ⚠	Debian 8 & 9
 - ⚠ CentOS 7
 
-✓ = Supported OS
-
-⚠ = Under Progress
 
 **Port Requirements:**
 
