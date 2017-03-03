@@ -4,6 +4,12 @@
   user: name={{ username | lower }} shell=/bin/bash
   register: setup_user
 
+- name: Setup User Home Direcroty Permissions, Hold on...
+  file:
+    path: "/home/{{ username | lower }}"
+    mode: "0750"
+  when: setup_user.changed == True
+
 # Allow NGINX to Read files
 - name: Grant NGINX Read Permissions, Hold on...
   user:
