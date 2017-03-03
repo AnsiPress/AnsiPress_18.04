@@ -5,6 +5,24 @@
 
 ## Quick Start
 
+### Features
+
+✓ True Shared Hosting
+
+✓ NGINX + PageSpeed
+
+✓ PHP 7.1 With Different Master Process for Each User
+
+✓ MariaDB
+
+✓ WordPress (W3TC & FastCGI Cache)
+
+⚠ Lets Encrypt (ETA in 2 Weeks)
+
+⚠ Google PageSpeed Configuration (ETA in 3 Weeks)
+
+⚠ NGINX Redis Module (ETA in 5 weeks)
+
 **Operating System:**
 
 - ✓ Ubuntu 16.04
@@ -26,7 +44,7 @@
 
 
 
-#### Ansible - [Install Ansible] (https://miteshshah.github.io/devops/ansible/ansible-installation/)
+### Ansible - [Install Ansible] (https://miteshshah.github.io/devops/ansible/ansible-installation/)
 
 #### Clone AnsiPress
 
@@ -58,11 +76,11 @@ $ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=w3t
 $ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=wpfc.com website_type=wpfc"
 ```
 
-#### Track Development
+### Track Development
 
 [Milestone] (https://github.com/AnsiPress/AnsiPress/milestones)
 
-#### Donation
+### Donation
 [![PayPal Donate](https://cloud.githubusercontent.com/assets/1223371/20793214/ec6ffca2-b7eb-11e6-9614-d893ff77a565.png)]  (https://paypal.me/AnsiPress)
 
 Yes you can! Just click on the image above ;)
