@@ -26,6 +26,10 @@
 
 ⚠ NGINX Redis Module (ETA in 5 weeks)
 
+⚠ Laravel Support (ETA in 10 weeks)
+
+⚠ Drupal Support (ETA in 15 weeks)
+
 **Operating System:**
 
 - ✓ Ubuntu 16.04
