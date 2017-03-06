@@ -2,6 +2,7 @@
 
 [![saythanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)](https://saythanks.io/to/MiteshShah) [![Join AnsiPress Slack Channel](https://ansipress.herokuapp.com/badge.svg)](https://ansipress.herokuapp.com/)
 
+[![AnsiPress](https://cloud.githubusercontent.com/assets/1223371/23602874/937c6338-0278-11e7-8a91-6d62d677c46b.png)](https://www.youtube.com/watch?v=s7ShsNrQ4-0)
 
 ## Quick Start
 
