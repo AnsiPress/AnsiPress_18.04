@@ -62,6 +62,7 @@
     - { regexp: '^error_log', line: 'error_log = /var/log/php/fpm.log' }
     - { regexp: '^include=', line: 'include=/etc/php/7.1/fpm/pool.d/www.conf' }
   when: package_install.changed == True
+  notify: service php7.1-fpm restart
 
 - name: Tunning PHP WWW Pool Variables, Hold on...
   lineinfile:
