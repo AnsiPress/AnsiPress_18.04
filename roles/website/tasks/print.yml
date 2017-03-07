@@ -1,0 +1,10 @@
+---
+# Print Userful Information
+
+- name: AnsiPress HTTP Auth Details, Hold on...
+  debug:
+    msg: "{{ item }}"
+  with_items:
+    - HTTP AUTH Username = AnsiPress
+    - HTTP AUTH Password = {{ http_auth_pass }}
+  when: setup_http_auth.stat.islnk is not defined

@@ -18,13 +18,26 @@
     dest: /etc/nginx/
   when: package_install.changed == True
 
+- name: Checking /etc/nginx/htpasswd File, Hold on...
+  stat:
+    path: /etc/nginx/htpasswd
+  register: setup_http_auth
+
+# Gererate Random Password For HTTP AUTH
+- include: roles/libs/tasks/random_password.yml
+  when: setup_http_auth.stat.islnk is not defined
+
 - name: Setup HTTP AUTH, Hold On...
   htpasswd:
     path: /etc/nginx/htpasswd
     name: AnsiPress
-    password: 'AnsiPress'
-  when: package_install.changed == True
+    password: "{{ random_password.stdout }}"
+  when: setup_http_auth.stat.islnk is not defined
 
+# Save the HTTP_AUTH_Password Value
+- set_fact:
+    http_auth_pass: "{{ random_password.stdout }}"
+  when: setup_http_auth.stat.islnk is not defined
 
 # We need PHP Pool Number
 # In Order to setup PHP/MySQL/WordPress website template

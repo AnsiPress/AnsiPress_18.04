@@ -31,4 +31,3 @@
     - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/ssl
     - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/conf
     - /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/logs
-  when: setup_user.changed == True
