@@ -1,6 +1,7 @@
 # AnsiPress
 
-[![saythanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)](https://saythanks.io/to/MiteshShah) [![Join AnsiPress Slack Channel](https://ansipress.herokuapp.com/badge.svg)](https://ansipress.herokuapp.com/)
+[![saythanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)](https://saythanks.io/to/MiteshShah) [![Join AnsiPress Slack Channel](https://ansipress.herokuapp.com/badge.svg)](https://ansipress.herokuapp.com/) <a href="https://www.paypal.me/AnsiPress"><img src="https://cloud.githubusercontent.com/assets/1223371/23652872/75a751aa-0350-11e7-8a1f-20460e1e82fa.png" width="80" height="20"></a>
+
 
 [![AnsiPress](https://cloud.githubusercontent.com/assets/1223371/23602874/937c6338-0278-11e7-8a91-6d62d677c46b.png)](https://www.youtube.com/watch?v=s7ShsNrQ4-0)
 
