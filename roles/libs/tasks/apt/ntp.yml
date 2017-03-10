@@ -1,5 +1,5 @@
 ---
-# Install Required Software
-- name: Installing NTP Service Hold on...
+# Install NTP
+- name: Installing NTP Service, Hold on...
   apt: name=ntp state=present
   notify: service ntp restart

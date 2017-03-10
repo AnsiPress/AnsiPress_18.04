@@ -1,4 +1,7 @@
 ---
+- name: service memcached restart
+  service: name=memcached state=restarted
+
 - name: service nginx reload
   service: name=nginx state=reloaded
 
