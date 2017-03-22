@@ -1,0 +1,8 @@
+---
+- name: Installing Fail2ban, Hold on...
+  apt: name={{ item }} state=present
+  with_items:
+    - fail2ban
+  register: package_install
+  # The notify will call the ../handlers/main.yml
+  notify: service fail2ban restart
