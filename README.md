@@ -50,7 +50,7 @@
 
 
 
-### Ansible - [Install Ansible] (https://miteshshah.github.io/devops/ansible/ansible-installation/)
+### Ansible - [Install Ansible](https://miteshshah.github.io/devops/ansible/ansible-installation/)
 
 #### Clone AnsiPress
 
@@ -62,9 +62,9 @@ $ cd AnsiPress && git checkout develop
 #### Setup SSH Server Login Details
 
 * AnsiPress required you can login to remote server via `ssh AnsiPress.local`
-* Change the [AnsiPerss.local] (https://github.com/AnsiPress/AnsiPress/blob/develop/hosts#L2) server name
+* Change the [AnsiPerss.local](https://github.com/AnsiPress/AnsiPress/blob/develop/hosts#L2) server name
 * Make sure you are able to connect server via `ssh example.com`
-* Refer - [SSH Configuration] (https://miteshshah.github.io/linux/ssh/ssh-tips-and-tricks/#ssh-config)
+* Refer - [SSH Configuration](https://miteshshah.github.io/linux/ssh/ssh-tips-and-tricks/#ssh-config)
 
 #### Run the AnsiPress Playbook
 
@@ -84,7 +84,7 @@ $ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=wpf
 
 ### Track Development
 
-[Milestone] (https://github.com/AnsiPress/AnsiPress/milestones)
+[Milestone](https://github.com/AnsiPress/AnsiPress/milestones)
 
 ### Donation
 [![PayPal Donate](https://cloud.githubusercontent.com/assets/1223371/20793214/ec6ffca2-b7eb-11e6-9614-d893ff77a565.png)]  (https://paypal.me/AnsiPress)
