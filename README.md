@@ -87,7 +87,7 @@ $ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=wpf
 [Milestone](https://github.com/AnsiPress/AnsiPress/milestones)
 
 ### Donation
-[![PayPal Donate](https://cloud.githubusercontent.com/assets/1223371/20793214/ec6ffca2-b7eb-11e6-9614-d893ff77a565.png)]  (https://paypal.me/AnsiPress)
+[![PayPal Donate](https://cloud.githubusercontent.com/assets/1223371/20793214/ec6ffca2-b7eb-11e6-9614-d893ff77a565.png)](https://paypal.me/AnsiPress)
 
 Yes you can! Just click on the image above ;)
 
