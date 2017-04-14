@@ -11,6 +11,7 @@
   copy:
     src: /etc/fail2ban/jail.conf
     dest: /etc/fail2ban/jail.local
+    remote_src: true
   when: package_install.changed == True
 
 - name: Configuring Fail2ban, please wait...
