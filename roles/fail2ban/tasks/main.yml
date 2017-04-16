@@ -21,6 +21,6 @@
     backrefs: yes
     line: "{{ item.line }}"
   with_items:
-    - { regexp: '^sender = root@localhost', line: 'sender = {{ inventry_hostname }}' }
+    - { regexp: '^sender = root@localhost', line: 'sender = root@{{ ansible_hostname }}' }
   when: package_install.changed == True
   notify: service fail2ban restart
