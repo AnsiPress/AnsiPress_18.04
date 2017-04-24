@@ -22,9 +22,9 @@
 
 ✓ WordPress (W3TC & FastCGI Cache)
 
-⚠ Lets Encrypt (ETA in 2 Weeks)
+✓ Google PageSpeed Configuration
 
-⚠ Google PageSpeed Configuration (ETA in 3 Weeks)
+⚠ Lets Encrypt (ETA in 2 Weeks)
 
 ⚠ NGINX Redis Module (ETA in 5 weeks)
 
@@ -35,7 +35,7 @@
 **Operating System:**
 
 - ✓ Ubuntu 16.04
-- ⚠	Debian 8 & 9
+- ✓	Debian 8
 - ⚠ CentOS 7
 
 
