@@ -21,6 +21,7 @@ logpath = /var/log/nginx/*error.log
 
 [nginx-botsearch]
 enabled = true
+logpath = /var/log/nginx/*error.log
 
 [nginx-req-limit]
 enabled = true
