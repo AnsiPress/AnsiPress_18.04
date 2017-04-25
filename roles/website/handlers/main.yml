@@ -5,6 +5,11 @@
 - name: service nginx reload
   service: name=nginx state=reloaded
 
+# In order to Fail2ban read new website error.log file
+# We need to reload fail2ban
+- name: service fail2ban reload
+  service: name=fail2ban state=reloaded
+
 - name: service php7.1-fpm restart
   service: name=php7.1-fpm state=restarted
 

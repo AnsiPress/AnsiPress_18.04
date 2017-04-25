@@ -94,3 +94,5 @@
   with_items:
     - { src: "/var/log/nginx/{{ website_name | lower }}.access.log", dest: "/home/{{ username | lower }}/vhosts/{{ website_name | lower }}/logs/access.log" }
     - { src: "/var/log/nginx/{{ website_name | lower }}.error.log", dest: "/home/{{ username | lower }}/vhosts/{{ website_name | lower }}/logs/error.log" }
+  # The notify will call the ../handlers/main.yml
+  notify: service fail2ban reload
