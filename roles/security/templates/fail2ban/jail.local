@@ -1,6 +1,7 @@
 [DEFAULT]
-# Ban hosts for one hour:
+
 bantime = {{ bantime }}
+ignoreip = {{ ignoreip }}
 
 # Override /etc/fail2ban/jail.d/00-firewalld.conf:
 banaction = iptables-multiport
@@ -8,8 +9,20 @@ banaction = iptables-multiport
 [sshd]
 enabled = true
 
-[nginx-req-limit]
+[sshd-ddos]
+enabled = true
 
+[php-url-fopen]
+enabled = true
+
+[nginx-http-auth]
+enabled = true
+logpath = /var/log/nginx/*error.log
+
+[nginx-botsearch]
+enabled = true
+
+[nginx-req-limit]
 enabled = true
 filter = nginx-req-limit
 action = iptables-multiport[name=ReqLimit, port="http,https", protocol=tcp]
