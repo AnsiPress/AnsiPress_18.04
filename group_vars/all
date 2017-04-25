@@ -3,6 +3,9 @@
 remote_user: root
 ansible_python_interpreter: /usr/bin/python3
 
+# fail2ban bantime
+bantime: 86400
+
 
 # Create New User Account
 # We can also pass username variable value using following command

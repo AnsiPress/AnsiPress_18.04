@@ -8,19 +8,7 @@
   notify: service fail2ban restart
 
 - name: Copying Configuration File, Hold on...
-  copy:
-    src: /etc/fail2ban/jail.conf
+  template:
+    src: ../templates/jail.local
     dest: /etc/fail2ban/jail.local
-    remote_src: true
   when: package_install.changed == True
-
-- name: Configuring Fail2ban, please wait...
-  lineinfile:
-    dest: /etc/fail2ban/jail.local
-    regexp: "{{ item.regexp }}"
-    backrefs: yes
-    line: "{{ item.line }}"
-  with_items:
-    - { regexp: '^sender = root@localhost', line: 'sender = root@{{ ansible_hostname }}' }
-  when: package_install.changed == True
-  notify: service fail2ban restart
