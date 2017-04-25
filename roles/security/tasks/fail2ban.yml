@@ -1,0 +1,17 @@
+---
+- name: Installing Fail2ban, Hold on...
+  apt: name={{ item }} state=present
+  with_items:
+    - fail2ban
+  register: package_install
+  # The notify will call the ../handlers/main.yml
+  notify: service fail2ban restart
+
+- name: Copying Fail2ban Configuration File, Hold on...
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "../templates/fail2ban/jail.local", dest: "/etc/fail2ban/jail.local" }
+    - { src: "../templates/fail2ban/nginx-req-limit.conf", dest: "/etc/fail2ban/filter.d/nginx-req-limit.conf" }
+  when: package_install.changed == True

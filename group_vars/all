@@ -3,7 +3,7 @@
 remote_user: root
 ansible_python_interpreter: /usr/bin/python3
 
-# fail2ban bantime
+# Fail2ban Bantime 24 hours.
 bantime: 86400
 
 

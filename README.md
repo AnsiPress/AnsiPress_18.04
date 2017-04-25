@@ -24,6 +24,8 @@
 
 ✓ Google PageSpeed Configuration
 
+✓ Fail2Ban
+
 ⚠ Lets Encrypt (ETA in 2 Weeks)
 
 ⚠ NGINX Redis Module (ETA in 5 weeks)
