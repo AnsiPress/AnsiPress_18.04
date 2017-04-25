@@ -7,3 +7,4 @@
     - reboot
     - user
     - website
+    - fail2ban
