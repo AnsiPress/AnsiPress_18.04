@@ -3,23 +3,12 @@
 
 - include: roles/website/tasks/php.yml
 
-- name: Adding MariaDB Repository, Hold on...
-  apt_repository: repo='deb [arch=amd64,i386,ppc64el] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/ubuntu {{ ansible_distribution_release }} main' state=present filename=mariadb
-  register: mariadb_repo
-
-- name: Adding MariaDB Repository Key, Hold on...
-  apt_key: keyserver=keyserver.ubuntu.com id=0xF1656F24C74CD1D8
-  register: mariadb_key
-
-- include: roles/libs/tasks/apt/update.yml
-  when: mariadb_repo.changed == True or mariadb_key.changed == True
-
 - name: Installing MariaDB, Hold on...
   apt: name={{ item }} state=present
   with_items:
     - mariadb-server
     - mariadb-client
-    - libmysqlclient-dev
+    - libmariadbclient-dev
   register: package_install
   # The notify will call the ../handlers/main.yml
   notify: service mysql restart

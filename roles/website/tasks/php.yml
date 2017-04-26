@@ -3,13 +3,6 @@
 
 - include: roles/website/tasks/html.yml
 
-- name: Adding PHP Repository, Hold on...
-  apt_repository: repo=ppa:ondrej/php
-  register: php_repo
-
-- include: roles/libs/tasks/apt/update.yml
-  when: php_repo.changed == True
-
 - name: Installing PHP, Hold on...
   apt: name={{ item }} state=present
   with_items:
@@ -85,12 +78,12 @@
   when: package_install.changed == True
 
 - name: Creating PHP Debug Pool, Hold on...
-#  shell: cp -av /etc/php/7.1/fpm/pool.d/www.conf /etc/php/7.1/fpm/pool.d/debug.conf
+  shell: cp -av /etc/php/7.1/fpm/pool.d/www.conf /etc/php/7.1/fpm/pool.d/debug.conf
 #  Ansible Copy Module bug https://github.com/ansible/ansible/issues/14341#issuecomment-275057426
-  copy:
-    src: /etc/php/7.1/fpm/pool.d/www.conf
-    dest: /etc/php/7.1/fpm/pool.d/debug.conf
-    remote_src: true
+#  copy:
+#    src: /etc/php/7.1/fpm/pool.d/www.conf
+#    dest: /etc/php/7.1/fpm/pool.d/debug.conf
+#    remote_src: true
   when: package_install.changed == True
 
 - name: Tunning PHP Debug Pool Variables, Hold on...
