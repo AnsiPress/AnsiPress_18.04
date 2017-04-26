@@ -36,14 +36,7 @@
     url:  https://raw.githubusercontent.com/AnsiPress/AnsiTools/master/cache/purge.php
     dest: /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/htdocs/
     mode: 644
-  when: website_type == "wpfc" or website_type == "WPFC"
+  when: website_type == "wpfc"
 
 - name: Fixing WordPress Permissions, Hold On
   shell: find /home/{{ username | lower }}/vhosts/{{ website_name | lower }} -type d -exec chmod 750 {} \; && find /home/{{ username | lower }}/vhosts/{{ website_name | lower }} -type f -exec chmod 640 {} \; && chown -R {{ username | lower }}:{{ username | lower }} /home/{{ username | lower }}/vhosts/{{ website_name | lower }}
-
-- name: Getting WordPress Setup Information, Hold on...
-  debug:
-    msg: "{{ item }}"
-  with_items:
-    - WordPress Username = {{ username | lower }}
-    - WordPress Password = {{ random_password.stdout }}

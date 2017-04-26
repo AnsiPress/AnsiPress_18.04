@@ -1,5 +1,2 @@
 ---
-- include: roles/website/tasks/memcached.yml
-- include: roles/website/tasks/repo_{{ ansible_distribution | lower }}.yml
 - include: roles/website/tasks/{{ website_type | lower }}.yml
-- include: roles/website/tasks/print.yml

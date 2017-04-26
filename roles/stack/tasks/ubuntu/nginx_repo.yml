@@ -1,5 +1,5 @@
 ---
-# Setup Ubuntu Repository
+# Setup NGINX Repository
 
 - name: Adding NGINX Repository Key, Hold on...
   apt_key:
@@ -12,18 +12,6 @@
   apt_repository: repo='deb http://download.opensuse.org/repositories/home:/AnsiPress/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /' state=present filename=nginx
   register: repository
   when: ansible_distribution == 'Ubuntu'
-
-- name: Adding PHP Repository, Hold on...
-  apt_repository: repo=ppa:ondrej/php
-  register: repository
-
-- name: Adding MariaDB Repository Key, Hold on...
-  apt_key: keyserver=keyserver.ubuntu.com id=0xF1656F24C74CD1D8
-  register: apt_key
-
-- name: Adding MariaDB Repository, Hold on...
-  apt_repository: repo='deb [arch=amd64,i386,ppc64el] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main' state=present filename=mariadb
-  register: repository
 
 - include: roles/libs/tasks/apt/update.yml
   when: repository.changed == True or apt_key.changed == True

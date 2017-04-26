@@ -12,5 +12,7 @@
     - bootstrap
     - security
     - reboot
+    - stack
     - user
     - website
+    - print

@@ -8,3 +8,10 @@
     - HTTP AUTH Username = AnsiPress
     - HTTP AUTH Password = {{ http_auth_pass }}
   when: setup_http_auth.stat.islnk is not defined
+
+- name: Getting WordPress Setup Information, Hold on...
+  debug:
+    msg: "{{ item }}"
+  with_items:
+    - WordPress Username = {{ username | lower }}
+    - WordPress Password = {{ random_password.stdout }}

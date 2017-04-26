@@ -1,7 +1,4 @@
 ---
-- name: service memcached restart
-  service: name=memcached state=restarted
-
 - name: service nginx reload
   service: name=nginx state=reloaded
 
@@ -10,11 +7,5 @@
 - name: service fail2ban restart
   service: name=fail2ban state=restarted
 
-- name: service php7.1-fpm restart
-  service: name=php7.1-fpm state=restarted
-
 - name: service php7.1-{{ username | lower }} restart
   service: name=php7.1-{{ username | lower }} state=restarted
-
-- name: service mysql restart
-  service: name=mysql state=restarted

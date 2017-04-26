@@ -1,49 +1,12 @@
 ---
-# Setup NGINX PlayBook
-
-- name: Installing NGINX, Hold on...
-  apt: name=nginx-pagespeed state=present
-  register: package_install
-
-- name: Setup NGINX conf.d Files, Hold on...
-  copy:
-    src: ../templates/nginx/conf.d/
-    dest: /etc/nginx/conf.d/
-  when: package_install.changed == True
-
-- name: Setup AnsiPress NGINX Files, Hold on...
-  copy:
-    src: ../templates/nginx/ansipress
-    dest: /etc/nginx/
-  when: package_install.changed == True
-
-- name: Checking /etc/nginx/htpasswd File, Hold on...
-  stat:
-    path: /etc/nginx/htpasswd
-  register: setup_http_auth
-
-# Gererate Random Password For HTTP AUTH
-- include: roles/libs/tasks/random_password.yml
-  when: setup_http_auth.stat.islnk is not defined
-
-- name: Setup HTTP AUTH, Hold On...
-  htpasswd:
-    path: /etc/nginx/htpasswd
-    name: AnsiPress
-    password: "{{ random_password.stdout }}"
-  when: setup_http_auth.stat.islnk is not defined
-
-# Save the HTTP_AUTH_Password Value
-- set_fact:
-    http_auth_pass: "{{ random_password.stdout }}"
-  when: setup_http_auth.stat.islnk is not defined
+# Setup NGINX Website Configuration
 
 # We need PHP Pool Number
 # In Order to setup PHP/MySQL/WordPress website template
 # We need to replace php_pool variable on those templates
 - name: Calculate PHP Pool Value, Hold on...
   include: roles/libs/tasks/php_pool.yml
-  when: website_type != "html" and website_type != "HTML"
+  when: website_type != "html"
 
 - name: Check /etc/nginx/sites-available/{{ website_name | lower }}.conf, Hold on...
   stat:
@@ -52,11 +15,11 @@
 
 - name: Setup HTML, PHP or MySQL website NGINX Configuration, Hold on...
   template: src={{ website_type | lower }}/basic.conf dest=/etc/nginx/sites-available/{{ website_name | lower }}.conf
-  when: site_config.stat.islnk is not defined and (website_type == "html" or website_type == "php" or website_type == "mysql" or website_type == "HTML" or website_type == "PHP" or website_type == "MYSQL")
+  when: site_config.stat.islnk is not defined and (website_type == "html" or website_type == "php" or website_type == "mysql")
 
 - name: Setup WordPress website NGINX Configuration, Hold on...
   template: src=wordpress/{{ website_type | lower }}.conf dest=/etc/nginx/sites-available/{{ website_name | lower }}.conf
-  when: site_config.stat.islnk is not defined and (website_type == "wp" or website_type == "w3tc" or website_type == "wpfc" or website_type == "WP" or website_type == "W3TC" or website_type == "WPFC")
+  when: site_config.stat.islnk is not defined and (website_type == "wp" or website_type == "w3tc" or website_type == "wpfc")
 
 - name: Enabling {{ website_name | lower }} Website, Hold on...
   file:
