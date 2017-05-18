@@ -26,7 +26,7 @@ The release require the following tools installed on your development system:
 Create a branch, update version, and add release notes by running `make-branch`
 
 ```
-./github/scripts/release/make-branch
+./github/release/make-branch
 ```
 
 As part of this script you'll be asked to:
@@ -40,7 +40,7 @@ As part of this script you'll be asked to:
 
 # To release a version
 ```
-./github/scripts/releases/push-release
+./github/releases/push-release
 ```
 
 # Versioning

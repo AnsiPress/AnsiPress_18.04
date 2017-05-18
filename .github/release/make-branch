@@ -11,7 +11,7 @@ echo "Creating a release branch release/$RELEASE_VERSION from develop branch"
 git checkout develop
 
 echo "Write release notes in CHANGELOG.txt"
-$editor CHANGELOG.txt
+vim CHANGELOG.txt
 
 RELEASE_VERSION=$(head -n1 CHANGELOG.txt | awk '{ print $1 }')
 ${GITFLOW_COMMAND} release start ${RELEASE_VERSION}
