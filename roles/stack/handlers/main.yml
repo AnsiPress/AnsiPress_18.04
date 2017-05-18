@@ -1,0 +1,12 @@
+---
+- name: service memcached restart
+  service: name=memcached state=restarted
+
+- name: service nginx restart
+  service: name=nginx state=restarted
+
+- name: service php7.1-fpm restart
+  service: name=php7.1-fpm state=restarted
+
+- name: service mysql restart
+  service: name=mysql state=restarted

@@ -1,9 +1,18 @@
 ---
 - name: Welcome to AnsiPress Setup
   hosts: AnsiPress
+  gather_facts: no
+  pre_tasks:
+    - name: Installing python3-simplejson for Ansible, Hold on...
+      raw: apt-get update && apt-get -y install python3-simplejson
+    - name: Gathering Facts
+      setup:
 
   roles:
     - bootstrap
+    - security
     - reboot
+    - stack
     - user
     - website
+    - print

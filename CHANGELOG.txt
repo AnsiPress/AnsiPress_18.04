@@ -1,3 +1,11 @@
+v0.2.0-beta - May 17, 2017
+- Debian 8
+- UTC TimeZone
+- Fail2Ban Support
+- PageSpeed Configuration
+- WooCommerce Cache Bypass
+- Fix #14 #21 #24 #25
+
 v0.1.0-beta - March 1, 2017
 - First Beta Release
 - NGINX PageSpeed Support
@@ -10,4 +18,3 @@ v0.1.0-beta - March 1, 2017
 	4. WordPress
 	5. WordPress W3TC (W3 Total Cache)
 	6. WordPress FastCGI Cache
-

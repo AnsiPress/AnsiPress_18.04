@@ -1,0 +1,6 @@
+---
+# We had include service restart module
+# Also we have to passs service_name variable which trigger
+# service {{ service_name }} restart
+- name: service fail2ban restart
+  service: name=fail2ban state=restarted

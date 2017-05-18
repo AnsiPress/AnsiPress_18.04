@@ -1,0 +1,14 @@
+[Unit]
+Description=The PHP 7.1 FastCGI Process Manager
+Documentation=man:php-fpm7.1(8)
+After=network.target
+
+[Service]
+UMask=0027
+Type=notify
+PIDFile=/run/php/php7.1-{{ username | lower }}.pid
+ExecStart=/usr/sbin/php-fpm7.1 --nodaemonize --fpm-config /etc/php/7.1/fpm/pool.d/{{ username | lower }}.conf
+ExecReload=/bin/kill -USR2 $MAINPID
+
+[Install]
+WantedBy=multi-user.target

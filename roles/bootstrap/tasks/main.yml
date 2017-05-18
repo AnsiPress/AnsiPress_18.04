@@ -2,6 +2,8 @@
 - include: roles/libs/tasks/ping.yml
 - include: roles/libs/tasks/hostname.yml
 - include: roles/libs/tasks/timezone.yml
+- include: roles/libs/tasks/umask.yml
 - include: roles/libs/tasks/apt/update.yml
 - include: roles/libs/tasks/apt/dist_upgrade.yml
 - include: roles/libs/tasks/apt/install.yml
+- include: roles/libs/tasks/apt/ntp.yml
