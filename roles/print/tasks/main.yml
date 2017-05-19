@@ -15,3 +15,4 @@
   with_items:
     - WordPress Username = {{ username | lower }}
     - WordPress Password = {{ random_password.stdout }}
+  when: website_type == "wp" or website_type == "w3tc" or website_type == "wpfc"

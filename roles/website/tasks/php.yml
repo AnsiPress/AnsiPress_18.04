@@ -4,7 +4,6 @@
 # Setup PHP Website Pool
 - name: Setup {{ username | lower }} Pool, Hold on...
   template: src=php/pool.conf dest=/etc/php/7.1/fpm/pool.d/{{ username | lower }}.conf
-  when: setup_user.changed == True
 
 #- name: Setup php7.1-{ username | lower }} Service, Hold on...
 - template:
@@ -13,5 +12,4 @@
   with_items:
     - { src: "php/php7.1-fpm", dest: "/etc/init.d/php7.1-{{ username | lower }}" }
     - { src: "php/php7.1-fpm.service", dest: "/lib/systemd/system/php7.1-{{ username | lower }}.service" }
-  when: setup_user.changed == True
   notify: service php7.1-{{ username | lower }} restart
