@@ -1,3 +1,4 @@
 *.log
 *.retry
 *.DS_Store
+hosts
