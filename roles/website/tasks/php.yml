@@ -13,3 +13,9 @@
     - { src: "php/php7.1-fpm", dest: "/etc/init.d/php7.1-{{ username | lower }}" }
     - { src: "php/php7.1-fpm.service", dest: "/lib/systemd/system/php7.1-{{ username | lower }}.service" }
   notify: service php7.1-{{ username | lower }} restart
+
+# Make PHP Master Process Executable
+- name: Make PHP Master Process Executable, Hold on...
+  file:
+    path: /etc/init.d/php7.1-{{ username | lower }}
+    mode: 0755

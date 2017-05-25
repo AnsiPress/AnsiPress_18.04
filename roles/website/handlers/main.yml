@@ -8,4 +8,4 @@
   service: name=fail2ban state=restarted
 
 - name: service php7.1-{{ username | lower }} restart
-  service: name=php7.1-{{ username | lower }} state=restarted
+  service: name=php7.1-{{ username | lower }} state=restarted enabled=yes
