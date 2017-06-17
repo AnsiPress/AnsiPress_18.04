@@ -72,6 +72,9 @@ $table_prefix  = 'wp_';
  */
 define('WP_DEBUG', false);
 
+/** Disable the Plugin and Theme Editor **/
+define( 'DISALLOW_FILE_EDIT', true );
+
 /* That's all, stop editing! Happy blogging. */
 
 /** Absolute path to the WordPress directory. */
