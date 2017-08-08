@@ -6,8 +6,8 @@
 - name: Installing WP-CLI Tool, Hold on...
   get_url:
     url:  https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-    dest: /usr/local/bin/wpcli
-    mode: 755
+    dest: /usr/local/bin/wp
+    mode: 777
 
 - name: Downloading Latest WordPress, Hold on...
   shell: cd /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/htdocs/ && wpcli --allow-root core download
