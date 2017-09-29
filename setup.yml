@@ -11,7 +11,7 @@
   roles:
     - bootstrap
     - security
-    - reboot
+#    - reboot
     - stack
     - user
     - website
