@@ -32,10 +32,10 @@
 - include: roles/libs/tasks/random_password.yml
 
 - name: Setup WordPress Tables, Hold on...
-  shell: cd /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/htdocs/ && wpcli core install --allow-root  --url={{ website_name | lower }} --title="{{ website_name | lower }}" --admin_name="{{ username | lower }}" --admin_password={{ random_password.stdout }} --admin_email="{{ username | lower }}@localhost.localdomain"
+  shell: cd /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/htdocs/ && wp core install --allow-root  --url={{ website_name | lower }} --title="{{ website_name | lower }}" --admin_name="{{ username | lower }}" --admin_password={{ random_password.stdout }} --admin_email="{{ username | lower }}@localhost.localdomain"
 
 - name: Setup WordPress Permalink, Hold on...
-  shell: cd /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/htdocs/ && wpcli rewrite structure --allow-root /%year%/%monthnum%/%day%/%postname%/
+  shell: cd /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/htdocs/ && wp rewrite structure --allow-root /%year%/%monthnum%/%day%/%postname%/
 
 - name: Downloading NGINX Cache Purge Script, Hold on...
   get_url:
