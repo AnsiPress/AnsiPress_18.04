@@ -92,7 +92,12 @@ $ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=wpf
 
 ### Donation
 [![PayPal Donate](https://cloud.githubusercontent.com/assets/1223371/20793214/ec6ffca2-b7eb-11e6-9614-d893ff77a565.png)](https://paypal.me/AnsiPress)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAnsiPress%2FAnsiPress.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FAnsiPress%2FAnsiPress?ref=badge_shield)
 
 Yes you can! Just click on the image above ;)
 
 AnsiPress is made available for free. Any donations toward maintaining it and adding new features are greatly appreciated.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAnsiPress%2FAnsiPress.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FAnsiPress%2FAnsiPress?ref=badge_large)
