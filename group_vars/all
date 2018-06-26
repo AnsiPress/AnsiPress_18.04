@@ -15,6 +15,7 @@ username:
 
 # Install Required Packages
 packages:
+  - pv
   - bc
   - tar
   - sudo
