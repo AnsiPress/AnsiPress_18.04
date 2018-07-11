@@ -1,2 +1,3 @@
 ---
+- include: roles/security/tasks/security.yml
 - include: roles/security/tasks/fail2ban.yml
