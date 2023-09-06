@@ -1,6 +1,6 @@
 # AnsiPress
 
- <a href="https://www.paypal.me/AnsiPress"><img src="https://cloud.githubusercontent.com/assets/1223371/23652872/75a751aa-0350-11e7-8a1f-20460e1e82fa.png" width="80" height="20"></a> [![saythanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)](https://saythanks.io/to/MiteshShah) [![Join AnsiPress Slack Channel](https://ansipress.herokuapp.com/badge.svg)](https://ansipress.herokuapp.com/)
+ <a href="https://www.paypal.me/AnsiPress"><img src="https://cloud.githubusercontent.com/assets/1223371/23652872/75a751aa-0350-11e7-8a1f-20460e1e82fa.png" width="80" height="20"></a> [![Join AnsiPress Slack Channel](https://img.shields.io/badge/Join%20Slack-AnsiPress-orange?logo=slack)](https://communityinviter.com/apps/ansipress/ansipress)
 
 [![GitHub contributors](https://img.shields.io/github/contributors/AnsiPress/AnsiPress.svg)](https://github.com/AnsiPress/AnsiPress/graphs/contributors) [![GitHub closed issues](https://img.shields.io/github/issues-closed/AnsiPress/AnsiPress.svg)](https://github.com/AnsiPress/AnsiPress/issues?q=is%3Aissue+is%3Aclosed) [![GitHub issues](https://img.shields.io/github/issues/AnsiPress/AnsiPress.svg)](https://github.com/AnsiPress/AnsiPress/issues)
 
