@@ -16,31 +16,20 @@
 
 ✓ True Shared Hosting
 
-✓ NGINX + PageSpeed
+✓ NGINX 1.24
 
-✓ PHP 7.1 With Different Master Process for Each User
+✓ PHP 8.X With Different Master Process for Each User
 
-✓ MariaDB
+✓ MariaDB 10.11
 
-✓ WordPress (W3TC & FastCGI Cache)
-
-✓ Google PageSpeed Configuration
+✓ WordPress (FastCGI Cache)
 
 ✓ Fail2Ban
 
-⚠ Lets Encrypt (ETA in 2 Weeks)
-
-⚠ NGINX Redis Module (ETA in 5 weeks)
-
-⚠ Laravel Support (ETA in 10 weeks)
-
-⚠ Drupal Support (ETA in 15 weeks)
-
 **Operating System:**
 
-- ✓ Ubuntu 16.04
-- ✓	Debian 8
-- ⚠ CentOS 7
+- ⚠ Ubuntu 22.04
+
 
 
 **Port Requirements:**
@@ -80,8 +69,6 @@ $ ansible-playbook -i hosts setup.yml --extra-vars="username=php website_name=ph
 $ ansible-playbook -i hosts setup.yml --extra-vars="username=mysql website_name=mysql.com website_type=mysql"
 
 $ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=wp.com website_type=wp"
-
-$ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=w3tc.com website_type=w3tc"
 
 $ ansible-playbook -i hosts setup.yml --extra-vars="username=wp website_name=wpfc.com website_type=wpfc"
 ```
