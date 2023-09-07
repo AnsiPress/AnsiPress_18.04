@@ -1,17 +1,17 @@
 ---
 # Setup User Account
-- name: Setup User Account, Hold on...
+- name: Setup User Account
   user: name={{ username | lower }} shell=/bin/bash
   register: setup_user
 
-- name: Setup User Home Direcroty Permissions, Hold on...
+- name: Setup User Home Direcroty Permissions
   file:
     path: "/home/{{ username | lower }}"
     mode: "0750"
   when: setup_user.changed == True
 
 # Allow NGINX to Read files
-- name: Grant NGINX Read Permissions, Hold on...
+- name: Grant NGINX Read Permissions
   user:
     name: www-data
     groups: "{{ username | lower }}"
@@ -19,12 +19,12 @@
   when: setup_user.changed == True
 
 # Setup PS1
-- name: Setup Custom Bash Prompt PS1, Hold on...
+- name: Setup Custom Bash Prompt PS1
   shell: echo 'PS1="\`if [ \$? = 0 ]; then echo \[\e[37m\]^_^[\u@\H:\w]\\$ \[\e[0m\]; else echo \[\e[31m\]O_O[\u@\H:\w]\\$ \[\e[0m\]; fi\`"' >> /home/{{ username | lower }}/.bashrc
   when: setup_user.changed == True
 
 # https://github.com/ansible/ansible/issues/9196#issuecomment-57168074
-- name: Setup Directory, Hold on...
+- name: Setup Directory
   file:
     path: "{{ item }}"
     state: directory

@@ -1,17 +1,17 @@
 ---
 # Log All Commands
-- name: Log All Commands - Setup /etc/bash.bashrc, Hold on...
+- name: Log All Commands - Setup /etc/bash.bashrc
   lineinfile:
     state: present
     dest: "/etc/bash.bashrc"
     line: "export PROMPT_COMMAND='RETRN_VAL=$?;logger -p local6.debug \"$(whoami) [$$]: $(history 1 | sed \"s/^[ ]*[0-9]\\+[ ]*//\" ) [$RETRN_VAL]\"'"
 
-- name: Log All Commands - Setup /etc/rsyslog.d/bash.conf, Hold on...
+- name: Log All Commands - Setup /etc/rsyslog.d/bash.conf
   copy:
     dest: "/etc/rsyslog.d/bash.conf"
     content: local6.*    /var/log/commands.log
 
-- name: Log All Commands - Setup /var/log/commands.log, Hold on...
+- name: Log All Commands - Setup /var/log/commands.log
   file:
     path: /var/log/commands.log
     owner: syslog
@@ -19,7 +19,7 @@
     mode: 0640
     state: touch
 
-- name: Log All Commands - Setup logrotate, Hold on...
+- name: Log All Commands - Setup logrotate
   lineinfile:
     dest: "/etc/logrotate.d/rsyslog"
     regexp: "{{ item.regexp }}"
@@ -28,7 +28,7 @@
   with_items:
     - { regexp: '^/var/log/messages', line: '/var/log/messages\n/var/log/commands.log' }
 
-- name: service rsyslog restart, Hold on...
+- name: service rsyslog restart
   service:
     name: rsyslog
     state: restarted

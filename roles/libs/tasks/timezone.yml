@@ -5,5 +5,5 @@
 # http://yellerapp.com/posts/2015-01-12-the-worst-server-setup-you-can-make.html
 
 # Dont Forget to Update TimeZone in PHP (UTC)
-- name: Setup Timezone to UTC, Hold on...
-  timezone: name=Etc/UTC
+- name: Setup Timezone to UTC
+  community.general.timezone: name=Etc/UTC

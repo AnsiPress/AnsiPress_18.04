@@ -3,25 +3,25 @@
 
 - include: roles/stack/tasks/{{ ansible_distribution | lower }}/nginx_repo.yml
 
-- name: Installing NGINX, Hold on...
+- name: Installing NGINX
   apt: name=nginx-pagespeed state=present
   register: package_install
   # The notify will call the ../handlers/main.yml
   notify: service nginx restart
 
-- name: Setup NGINX conf.d Files, Hold on...
+- name: Setup NGINX conf.d Files
   copy:
     src: ../templates/nginx/conf.d/
     dest: /etc/nginx/conf.d/
   when: package_install.changed == True
 
-- name: Setup AnsiPress NGINX Files, Hold on...
+- name: Setup AnsiPress NGINX Files
   copy:
     src: ../templates/nginx/ansipress
     dest: /etc/nginx/
   when: package_install.changed == True
 
-- name: Checking /etc/nginx/htpasswd File, Hold on...
+- name: Checking /etc/nginx/htpasswd File
   stat:
     path: /etc/nginx/htpasswd
   register: setup_http_auth
@@ -30,7 +30,7 @@
 - include: roles/libs/tasks/random_password.yml
   when: setup_http_auth.stat.islnk is not defined
 
-- name: Setup HTTP AUTH, Hold On...
+- name: Setup HTTP AUTH
   htpasswd:
     path: /etc/nginx/htpasswd
     name: AnsiPress
@@ -38,7 +38,7 @@
   when: setup_http_auth.stat.islnk is not defined
 
 # Save the HTTP_AUTH_Password Value
-- name: Set HTTP_AUTH_Password Variable, Hold on...
+- name: Set HTTP_AUTH_Password Variable
   set_fact:
     http_auth_pass: "{{ random_password.stdout }}"
   when: setup_http_auth.stat.islnk is not defined

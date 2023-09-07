@@ -1,5 +1,5 @@
 ---
 # Install NTP
-- name: Installing NTP Service, Hold on...
-  apt: name=ntp state=present
+- name: Installing NTP Service
+  ansible.builtin.apt: name=ntp state=latest
   notify: service ntp restart

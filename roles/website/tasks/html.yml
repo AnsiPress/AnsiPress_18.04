@@ -4,24 +4,24 @@
 # We need PHP Pool Number
 # In Order to setup PHP/MySQL/WordPress website template
 # We need to replace php_pool variable on those templates
-- name: Calculate PHP Pool Value, Hold on...
+- name: Calculate PHP Pool Value
   include: roles/libs/tasks/php_pool.yml
   when: website_type != "html"
 
-- name: Check /etc/nginx/sites-available/{{ website_name | lower }}.conf, Hold on...
+- name: Check /etc/nginx/sites-available/{{ website_name | lower }}.conf
   stat:
     path: /etc/nginx/sites-available/{{ website_name | lower }}.conf
   register: site_config
 
-- name: Setup HTML, PHP or MySQL website NGINX Configuration, Hold on...
+- name: Setup HTML, PHP or MySQL website NGINX Configuration
   template: src={{ website_type | lower }}/basic.conf dest=/etc/nginx/sites-available/{{ website_name | lower }}.conf
   when: site_config.stat.islnk is not defined and (website_type == "html" or website_type == "php" or website_type == "mysql")
 
-- name: Setup WordPress website NGINX Configuration, Hold on...
+- name: Setup WordPress website NGINX Configuration
   template: src=wordpress/{{ website_type | lower }}.conf dest=/etc/nginx/sites-available/{{ website_name | lower }}.conf
   when: site_config.stat.islnk is not defined and (website_type == "wp" or website_type == "w3tc" or website_type == "wpfc")
 
-- name: Enabling {{ website_name | lower }} Website, Hold on...
+- name: Enabling {{ website_name | lower }} Website
   file:
     src: /etc/nginx/sites-available/{{ website_name | lower }}.conf
     dest: /etc/nginx/sites-enabled/{{ website_name | lower }}.conf
@@ -31,7 +31,7 @@
   notify: service nginx reload
 
 
-- name: Setup Symbolic Link for Logs, Hold on...
+- name: Setup Symbolic Link for Logs
   file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"

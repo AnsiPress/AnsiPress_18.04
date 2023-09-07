@@ -1,7 +1,7 @@
 ---
 # Setup UMASK for Better Security
-- name: Setup UMASK, Hold on...
-  lineinfile:
+- name: Setup UMASK
+  ansible.builtin.lineinfile:
     dest: "/etc/profile"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"

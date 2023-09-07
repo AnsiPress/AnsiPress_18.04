@@ -1,0 +1,10 @@
+---
+# https://ubuntu.com/security/CVE-2023-32629
+# https://ubuntu.com/security/CVE-2023-2640
+- name: Mitigate Gameoverlay bug
+  ansible.posix.sysctl:
+    name: kernel.unprivileged_userns_clone
+    value: '0'
+    sysctl_set: true
+    reload: true
+  tags: sysctl

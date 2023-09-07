@@ -1,0 +1,19 @@
+# PHP-FPM
+php_memory_limit: 512M
+php_max_children: 55
+php_start_servers: 8
+php_min_spare_servers: 8
+php_max_spare_servers: 12
+
+# PHP OPcache
+opcache_memory_consumption: 512
+opcache_interned_strings_buffer: 64
+opcache_max_accelerated_files: 10000
+
+# Memcached
+memcached_memory_limit: 512
+
+# MySQL
+max_connections: 300
+innodb_buffer_pool_size: 4G
+innodb_buffer_pool_instances: 2

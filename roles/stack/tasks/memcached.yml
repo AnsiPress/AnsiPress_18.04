@@ -1,5 +1,5 @@
 ---
 # Install Memcached
-- name: Installing Memcached, Hold on...
+- name: Installing Memcached
   apt: name=memcached state=present
   notify: service memcached restart

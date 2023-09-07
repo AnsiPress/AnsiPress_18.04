@@ -1,7 +1,7 @@
 ---
 # Print Userful Information
 
-- name: AnsiPress HTTP Auth Details, Hold on...
+- name: AnsiPress HTTP Auth Details
   debug:
     msg: "{{ item }}"
   with_items:
@@ -9,7 +9,7 @@
     - HTTP AUTH Password = {{ http_auth_pass }}
   when: setup_http_auth.stat.islnk is not defined
 
-- name: Getting WordPress Setup Information, Hold on...
+- name: Getting WordPress Setup Information
   debug:
     msg: "{{ item }}"
   with_items:

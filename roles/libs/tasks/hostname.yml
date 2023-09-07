@@ -1,4 +1,4 @@
 ---
 # Setup FQDN
-- name: Setup FQDN, Hold on...
-  hostname: name={{ inventory_hostname }}
+- name: Setup FQDN
+  ansible.builtin.hostname: name={{ inventory_hostname }}

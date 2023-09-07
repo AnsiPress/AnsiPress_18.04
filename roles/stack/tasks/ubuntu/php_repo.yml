@@ -1,7 +1,7 @@
 ---
 # Setup PHP Repository
 
-- name: Adding PHP Repository, Hold on...
+- name: Adding PHP Repository
   apt_repository: repo=ppa:ondrej/php
   register: repository
 

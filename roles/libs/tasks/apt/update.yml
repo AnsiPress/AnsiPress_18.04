@@ -1,4 +1,4 @@
 ---
 # Execute apt-get update
-- name: Executing apt-get update command, Hold on...
-  apt: update_cache=yes
+- name: Executing apt-get update command
+  ansible.builtin.apt: update_cache=yes

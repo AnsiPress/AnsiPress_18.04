@@ -2,10 +2,10 @@
 - include: roles/website/tasks/html.yml
 
 # Setup PHP Website Pool
-- name: Setup {{ username | lower }} Pool, Hold on...
+- name: Setup {{ username | lower }} Pool
   template: src=php/pool.conf dest=/etc/php/7.1/fpm/pool.d/{{ username | lower }}.conf
 
-#- name: Setup php7.1-{ username | lower }} Service, Hold on...
+#- name: Setup php7.1-{ username | lower }} Service
 - template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
@@ -15,7 +15,7 @@
   notify: service php7.1-{{ username | lower }} restart
 
 # Make PHP Master Process Executable
-- name: Make PHP Master Process Executable, Hold on...
+- name: Make PHP Master Process Executable
   file:
     path: /etc/init.d/php7.1-{{ username | lower }}
     mode: 0755

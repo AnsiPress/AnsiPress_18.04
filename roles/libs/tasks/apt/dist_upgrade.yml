@@ -1,4 +1,6 @@
 ---
 # Execute apt-get dist-upgrade
-- name: Executing apt-get dist-upgrade command, Hold on...
-  apt: upgrade=dist
+- name: Executing apt-get dist-upgrade command
+  ansible.builtin.apt: upgrade=dist
+    retries: 5
+    delay: 2

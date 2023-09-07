@@ -1,5 +1,5 @@
 ---
-- name: Installing Fail2ban, Hold on...
+- name: Installing Fail2ban
   apt: name={{ item }} state=present
   with_items:
     - fail2ban
@@ -7,7 +7,7 @@
   # The notify will call the ../handlers/main.yml
   notify: service fail2ban restart
 
-- name: Copying Fail2ban Configuration File, Hold on...
+- name: Copying Fail2ban Configuration File
   template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"

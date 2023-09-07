@@ -1,14 +1,14 @@
 ---
 # Setup NGINX Repository
 
-- name: Adding NGINX Repository Key, Hold on...
+- name: Adding NGINX Repository Key
   apt_key:
     id: B9C9F7DE
     url: http://download.opensuse.org/repositories/home:AnsiPress/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/Release.key
   register: apt_key
   when: ansible_distribution == 'Ubuntu'
 
-- name: Adding NGINX Repository, Hold on...
+- name: Adding NGINX Repository
   apt_repository: repo='deb http://download.opensuse.org/repositories/home:/AnsiPress/x{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /' state=present filename=nginx
   register: repository
   when: ansible_distribution == 'Ubuntu'

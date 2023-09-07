@@ -1,8 +1,26 @@
 ---
 # Install Required Software
-- name: Installing required software, Hold on...
-  apt: name={{ item }} state=present
-  with_items: "{{ packages }}"
+- name: Installing required software
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+    state: latest
+    update_cache: true
+  tags: required_software
 
-- name: Installing passlib software, Hold on...
-  pip: name=passlib state=present
+- name: Upgrade pip
+  ansible.builtin.pip:
+    name:
+      - pip
+    state: latest
+  tags: pip_packages, package_upgrade
+
+- name: Installing Certbot
+  ansible.builtin.pip:
+    name:
+      - awscli
+      - certbot
+      - certbot_dns_route53
+      - cryptography
+      - pyOpenSSL
+    state: latest
+  tags: pip_packages, package_upgrade

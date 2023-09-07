@@ -3,15 +3,20 @@
 remote_user: root
 ansible_python_interpreter: /usr/bin/python3
 
+# Swap
+swap_size: 1
+
 # Fail2ban Bantime 24 hours.
 bantime: 86400
+
+# Fail2ban Findtime 1 hour.
+findtime: 3600
+
+# Fail2ban maxretry 30 times.
+maxretry: 30
+
 # Fail2ban ignore ip address separated by space
 ignoreip: 127.0.0.1/8
-
-# Create New User Account
-# We can also pass username variable value using following command
-# ansible-playbook -i hosts -e user_name=mi setup.yml --extra-vars="username=AnsiPress" -v
-username:
 
 # Install Required Packages
 packages:
@@ -28,7 +33,42 @@ packages:
   - lsb-release
   - python3-dev
   - python3-pip
+  - python3-passlib
   - ca-certificates
   - apt-transport-https
-  - python-software-properties
   - software-properties-common
+
+# Remove unwanted Packages
+packages_remove:
+  - lxd
+  - lxcfs
+  - snapd
+
+# NGINX FastCGI
+fastcgi_cache_time: 60m
+
+# PHP-FPM
+php_memory_limit: 256M
+php_max_children: 5
+php_start_servers: 2
+php_min_spare_servers: 2
+php_max_spare_servers: 3
+
+# PHP OPcache
+opcache_memory_consumption: 128
+opcache_interned_strings_buffer: 32
+opcache_max_accelerated_files: 10000
+
+# Memcached
+memcached_user: memcache
+memcached_port: 11211
+memcached_listen_ip: 127.0.0.1
+memcached_memory_limit: 32
+memcached_connections: 1024
+memcached_log_file: /var/log/memcached.log
+memcached_log_verbosity: ""
+
+# MySQL
+max_connections: 50
+innodb_buffer_pool_size: 256M
+innodb_buffer_pool_instances: 1

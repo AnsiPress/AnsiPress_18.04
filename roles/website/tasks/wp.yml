@@ -3,41 +3,41 @@
 
 - include: roles/website/tasks/mysql.yml
 
-- name: Checking WP-CLI, Hold on...
+- name: Checking WP-CLI
   stat:
     path: /usr/local/bin/wp
   register: setup_wp_cli
 
-- name: Installing WP-CLI, Hold on...
+- name: Installing WP-CLI
   get_url:
     url:  https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
     dest: /usr/local/bin/wp
     mode: 777
   when: setup_wp_cli.stat.islnk is not defined
 
-- name: Downloading Latest WordPress, Hold on...
+- name: Downloading Latest WordPress
   shell: cd /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/htdocs/ && wp --allow-root core download
 
-- name: Fetching random salts for WordPress config, Hold on...
+- name: Fetching random salts for WordPress config
   uri:
     url: https://api.wordpress.org/secret-key/1.1/salt/
     method: GET
     return_content: yes
   register: wp_salt
 
-- name: Copy wp-config.php File, Hold on...
+- name: Copy wp-config.php File
   template: src=wordpress/wp-config.php dest=/home/{{ username | lower }}/vhosts/{{ website_name | lower }}/wp-config.php
 
 # Gererate Random Password For WordPress User
 - include: roles/libs/tasks/random_password.yml
 
-- name: Setup WordPress Tables, Hold on...
+- name: Setup WordPress Tables
   shell: cd /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/htdocs/ && wp core install --allow-root  --url={{ website_name | lower }} --title="{{ website_name | lower }}" --admin_name="{{ username | lower }}" --admin_password={{ random_password.stdout }} --admin_email="{{ username | lower }}@localhost.localdomain"
 
-- name: Setup WordPress Permalink, Hold on...
+- name: Setup WordPress Permalink
   shell: cd /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/htdocs/ && wp rewrite structure --allow-root /%year%/%monthnum%/%day%/%postname%/
 
-- name: Downloading NGINX Cache Purge Script, Hold on...
+- name: Downloading NGINX Cache Purge Script
   get_url:
     url:  https://raw.githubusercontent.com/AnsiPress/AnsiTools/master/cache/purge.php
     dest: /home/{{ username | lower }}/vhosts/{{ website_name | lower }}/htdocs/

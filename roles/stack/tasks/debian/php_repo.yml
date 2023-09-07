@@ -1,13 +1,13 @@
 ---
 # Setup PHP Repository
 
-- name: Adding PHP Repository Key, Hold on...
+- name: Adding PHP Repository Key
   apt_key:
     url: https://packages.sury.org/php/apt.gpg
   register: apt_key
   when: ansible_distribution == 'Debian'
 
-- name: Adding PHP Repository, Hold on...
+- name: Adding PHP Repository
   apt_repository: repo='deb https://packages.sury.org/php/ {{ ansible_distribution_release }} main' state=present filename=php
   register: repository
   when: ansible_distribution == 'Debian'

@@ -5,7 +5,7 @@
 
 - include: roles/stack/tasks/{{ ansible_distribution | lower }}/php_repo.yml
 
-- name: Installing PHP, Hold on...
+- name: Installing PHP
   apt: name={{ item }} state=present
   with_items:
     - php7.1-gd
@@ -28,14 +28,14 @@
   # The notify will call the ../handlers/main.yml
   notify: service php7.1-fpm restart
 
-- name: Creating PHP Log Directory, Hold on...
+- name: Creating PHP Log Directory
   file:
     path: /var/log/php/
     state: directory
     mode: 0755
   when: package_install.changed == True
 
-- name: Tunning php.ini Variables, Hold on...
+- name: Tunning php.ini Variables
   lineinfile:
     dest: /etc/php/7.1/fpm/php.ini
     regexp: "{{ item.regexp }}"
@@ -49,7 +49,7 @@
     - { regexp: '^;date.timezone', line: 'date.timezone = UTC' }
   when: package_install.changed == True
 
-- name: Changing PHP-FPM Log Location, Hold on...
+- name: Changing PHP-FPM Log Location
   lineinfile:
     dest: /etc/php/7.1/fpm/php-fpm.conf
     regexp: "{{ item.regexp }}"
@@ -61,7 +61,7 @@
   when: package_install.changed == True
   notify: service php7.1-fpm restart
 
-- name: Tunning PHP WWW Pool Variables, Hold on...
+- name: Tunning PHP WWW Pool Variables
   lineinfile:
     dest: /etc/php/7.1/fpm/pool.d/www.conf
     regexp: "{{ item.regexp }}"
@@ -81,7 +81,7 @@
     - { regexp: '^pm.max_spare_servers', line: 'pm.max_spare_servers = 20' }
   when: package_install.changed == True
 
-- name: Creating PHP Debug Pool, Hold on...
+- name: Creating PHP Debug Pool
   shell: cp -av /etc/php/7.1/fpm/pool.d/www.conf /etc/php/7.1/fpm/pool.d/debug.conf
 #  Ansible Copy Module bug https://github.com/ansible/ansible/issues/14341#issuecomment-275057426
 #  copy:
@@ -90,7 +90,7 @@
 #    remote_src: true
   when: package_install.changed == True
 
-- name: Tunning PHP Debug Pool Variables, Hold on...
+- name: Tunning PHP Debug Pool Variables
   lineinfile:
     dest: /etc/php/7.1/fpm/pool.d/debug.conf
     regexp: "{{ item.regexp }}"

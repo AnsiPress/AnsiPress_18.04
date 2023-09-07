@@ -1,11 +1,11 @@
 ---
 # Setup MySQL Repository
 
-- name: Adding MariaDB Repository Key, Hold on...
+- name: Adding MariaDB Repository Key
   apt_key: keyserver=keyserver.ubuntu.com id=0xcbcb082a1bb943db
   register: apt_key
 
-- name: Adding MariaDB Repository, Hold on...
+- name: Adding MariaDB Repository
   apt_repository: repo='deb [arch=amd64,i386,ppc64el] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.1/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main' state=present filename=mariadb
   register: repository
 
