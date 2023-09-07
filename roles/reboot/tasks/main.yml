@@ -1,23 +1,31 @@
 ---
-# Check For Reboot Required
-- name: Checking For Reboot Required
-  shell: if [ -f /var/run/reboot-required ]; then echo 'reboot'; else echo 'no'; fi
-  ignore_errors: true
-  register: reboot_hint
+- name: Welcome to AnsiPress Setup
+  hosts: all
+  serial: 32
+  gather_facts: no
+  tasks:
+    # Check For Reboot Required
+    - name: Checking For Reboot Required
+      ansible.builtin.shell: if [ -f /var/run/reboot-required ]; then echo 'reboot'; else echo 'no'; fi
+      ignore_errors: true
+      register: reboot_hint
+      tags: reboot
 
-# Restart System
-# Guide async/poll - http://docs.ansible.com/ansible/playbooks_async.html
-- name: Restarting System
-  shell:  sleep 2 && /sbin/shutdown -r now "Ansible rebooting system to complete system package upgrade process"
-          removes=/var/run/reboot-required
-  async: 1
-  poll: 0
-  ignore_errors: true
-  when: reboot_hint.stdout.find("reboot") != -1
+    # Restart System
+    # Guide async/poll - http://docs.ansible.com/ansible/playbooks_async.html
+    - name: Restarting System
+      ansible.builtin.shell:  sleep 2 && /sbin/shutdown -r now "Ansible rebooting system to complete system package upgrade process"
+              removes=/var/run/reboot-required
+      async: 1
+      poll: 0
+      ignore_errors: true
+      when: reboot_hint.stdout.find("reboot") != -1
+      tags: reboot
 
-# Initializing System Boot Process
-- name: Initializing System Boot Process
-  local_action: wait_for host={{ ansible_host }}
-                state=started
-                timeout=200
-  when: reboot_hint.stdout.find("reboot") != -1
+    # Initializing System Boot Process
+    - name: Initializing System Boot Process
+      local_action: wait_for host={{ ansible_host }}
+                  state=started
+                  timeout=200
+      when: reboot_hint.stdout.find("reboot") != -1
+      tags: reboot
