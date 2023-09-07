@@ -5,7 +5,7 @@
   gather_facts: yes
   roles:
     - bootstrap
-#    - security
+    - security
 #    - reboot
 #    - stack
 #    - user

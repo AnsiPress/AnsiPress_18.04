@@ -1,6 +1,6 @@
 ---
 - name: Installing Fail2ban
-  apt: name={{ item }} state=present
+  ansible.builtin.apt: name={{ item }} state=present
   with_items:
     - fail2ban
   register: package_install
@@ -8,7 +8,7 @@
   notify: service fail2ban restart
 
 - name: Copying Fail2ban Configuration File
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
   with_items:

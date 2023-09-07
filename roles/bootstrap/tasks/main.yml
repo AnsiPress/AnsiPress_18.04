@@ -9,4 +9,3 @@
 - ansible.builtin.import_tasks: roles/libs/tasks/apt/install.yml
 - ansible.builtin.import_tasks: roles/libs/tasks/apt/remove.yml
 - ansible.builtin.import_tasks: roles/libs/tasks/apt/ntp.yml
-- ansible.builtin.import_tasks: roles/libs/tasks/sysctl.yml

@@ -1,18 +1,18 @@
 ---
 # Log All Commands
 - name: Log All Commands - Setup /etc/bash.bashrc
-  lineinfile:
+  ansible.builtin.lineinfile:
     state: present
     dest: "/etc/bash.bashrc"
     line: "export PROMPT_COMMAND='RETRN_VAL=$?;logger -p local6.debug \"$(whoami) [$$]: $(history 1 | sed \"s/^[ ]*[0-9]\\+[ ]*//\" ) [$RETRN_VAL]\"'"
 
 - name: Log All Commands - Setup /etc/rsyslog.d/bash.conf
-  copy:
+  ansible.builtin.copy:
     dest: "/etc/rsyslog.d/bash.conf"
     content: local6.*    /var/log/commands.log
 
 - name: Log All Commands - Setup /var/log/commands.log
-  file:
+  ansible.builtin.file:
     path: /var/log/commands.log
     owner: syslog
     group: syslog
@@ -20,7 +20,7 @@
     state: touch
 
 - name: Log All Commands - Setup logrotate
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: "/etc/logrotate.d/rsyslog"
     regexp: "{{ item.regexp }}"
     backrefs: yes
@@ -29,6 +29,6 @@
     - { regexp: '^/var/log/messages', line: '/var/log/messages\n/var/log/commands.log' }
 
 - name: service rsyslog restart
-  service:
+  ansible.builtin.service:
     name: rsyslog
     state: restarted
