@@ -4,3 +4,6 @@
 # service {{ service_name }} restart
 - name: service fail2ban restart
   ansible.builtin.service: name=fail2ban state=restarted
+
+- name: service rsyslog restart
+  ansible.builtin.service: name=rsyslog state=restarted

@@ -10,6 +10,7 @@
   ansible.builtin.copy:
     dest: "/etc/rsyslog.d/bash.conf"
     content: local6.*    /var/log/commands.log
+  notify: service rsyslog restart
 
 - name: Log All Commands - Setup /var/log/commands.log
   ansible.builtin.file:
@@ -20,15 +21,7 @@
     state: touch
 
 - name: Log All Commands - Setup logrotate
-  ansible.builtin.lineinfile:
+  ansible.builtin.copy:
+    src: "../templates/rsyslog"
     dest: "/etc/logrotate.d/rsyslog"
-    regexp: "{{ item.regexp }}"
-    backrefs: yes
-    line: "{{ item.line }}"
-  with_items:
-    - { regexp: '^/var/log/messages', line: '/var/log/messages\n/var/log/commands.log' }
-
-- name: service rsyslog restart
-  ansible.builtin.service:
-    name: rsyslog
-    state: restarted
+  notify: service rsyslog restart

@@ -4,3 +4,4 @@
   ansible.builtin.apt: upgrade=dist update_cache=yes
   retries: 5
   delay: 2
+  tags: package_upgrade

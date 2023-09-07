@@ -1,11 +1,12 @@
 ---
 - name: Installing Fail2ban
-  ansible.builtin.apt: name={{ item }} state=present
+  ansible.builtin.apt: name={{ item }} state=latest
   with_items:
     - fail2ban
   register: package_install
   # The notify will call the ../handlers/main.yml
   notify: service fail2ban restart
+  tags: fail2ban
 
 - name: Copying Fail2ban Configuration File
   ansible.builtin.template:
@@ -14,4 +15,22 @@
   with_items:
     - { src: "../templates/fail2ban/jail.local", dest: "/etc/fail2ban/jail.local" }
     - { src: "../templates/fail2ban/nginx-req-limit.conf", dest: "/etc/fail2ban/filter.d/nginx-req-limit.conf" }
-  when: package_install.changed == True
+  notify: service fail2ban restart
+  tags: fail2ban
+
+- name: Create Fail2ban Status Function
+  blockinfile:
+    path: /root/.bashrc
+    state: present
+    insertafter: EOF
+    block: |
+      function f2bstatus() {
+        JAILS=($(fail2ban-client status | grep "Jail list" | sed -E 's/^[^:]+:[ \t]+//' | sed 's/,//g'))
+        for JAIL in ${JAILS[@]}
+        do
+          echo "--------------- 👀  JAIL STATUS: $JAIL ... ---------------"
+          fail2ban-client status $JAIL
+          echo "--------------- ... ---------------"
+        done
+      }
+  tags: fail2ban

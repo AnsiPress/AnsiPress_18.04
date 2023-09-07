@@ -3,7 +3,7 @@
 - name: Check /swapfile file
   ansible.builtin.stat: path="/swapfile"
   register: swapfile_exist
-  tags: swap, resize_plan
+  tags: swap
 
 - name: Create swap file
   ansible.builtin.command: dd if=/dev/zero of=/swapfile bs=1M count={{ swap_size|int * 1024 }}
