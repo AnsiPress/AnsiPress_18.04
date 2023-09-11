@@ -1,0 +1,13 @@
+[dummy]
+user = www-data
+group = www-data
+listen = /var/run/php8.2-dummy.socket
+listen.owner = www-data
+listen.group = www-data
+pm = ondemand
+pm.max_children = 1
+pm.start_servers = 1
+pm.min_spare_servers = 1
+pm.max_spare_servers = 1
+pm.max_requests = 50
+pm.process_idle_timeout = 10s

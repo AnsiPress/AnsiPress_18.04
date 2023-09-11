@@ -1,0 +1,67 @@
+---
+# Setup MySQL Stack
+- name: Installing MariaDB
+  ansible.builtin.apt:
+    name:
+      - mariadb-server
+      - mariadb-client
+      - libmariadb-dev-compat
+    state: latest
+    update_cache: yes
+  register: package_install
+  # The notify will call the ../handlers/main.yml
+  notify: service mariadb restart
+  tags: mysql, mariadb
+
+- name: Setting up MySQL Configuration File
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "../templates/mariadb/production.cnf", dest: "/etc/mysql/conf.d/production.cnf" }
+  register: mysql_configs
+  tags: mysql, mariadb
+
+# To Secure MariaDB Installation
+# We first have to set root user password
+# For MariaDB root user password setup we need following things
+# Packages: python3-dev python3-pip & mysqlclient
+# Pyhton mysqlclient support Python3.x
+# Refer - https://github.com/PyMySQL/mysqlclient-python
+- name: Installing Python mysqlclient package
+  ansible.builtin.pip: name=mysqlclient state=latest
+  tags: mysql, mariadb
+
+- name: Generate Random password
+  ansible.builtin.set_fact:
+    random_password: "{{ lookup('ansible.builtin.password', '/dev/null', length=15, chars=['ascii_letters', 'digits', 'punctuation']) }}"
+  tags: mysql, mariadb
+
+- debug: msg="{{ random_password }}"
+  tags: mysql, mariadb
+
+- name: Setup MariaDB root password
+  community.mysql.mysql_user:
+    name: root
+    password: "{{ random_password }}"
+    state: present
+    host_all: true
+  tags: mysql, mariadb
+
+- name: Creating /root/.my.cnf file
+  ansible.builtin.template: src=mariadb/my.cnf dest=/root/.my.cnf owner=root group=root mode=0600
+  tags: mysql, mariadb
+
+- name: Removes all anonymous user accounts
+  community.mysql.mysql_user:
+    name: ''
+    host_all: true
+    state: absent
+  tags: mysql, mariadb
+
+- name: Installing MySQLTunner Script
+  ansible.builtin.get_url:
+    url:  http://mysqltuner.pl/
+    dest: /usr/local/bin/mysqltuner
+    mode: 755
+  tags: mysql, mariadb

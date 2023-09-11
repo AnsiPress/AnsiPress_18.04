@@ -1,105 +1,136 @@
 ---
-- include: roles/stack/tasks/nginx.yml
-
 # Setup PHP Stack
 
-- include: roles/stack/tasks/{{ ansible_distribution | lower }}/php_repo.yml
-
-- name: Installing PHP
-  apt: name={{ item }} state=present
-  with_items:
-    - php7.1-gd
-    - php7.1-cli
-    - php7.1-fpm
-    - php7.1-curl
-    - php7.1-imap
-    - php7.1-mysql
-    - php7.1-redis
-    - php7.1-geoip
-    - php7.1-common
-    - php7.1-mcrypt
-    - php7.1-xdebug
-    - php7.1-xmlrpc
-    - php7.1-opcache
-    - php7.1-memcache
-    - php7.1-mbstring
-    - php7.1-readline
+- name: Installing PHP8.2
+  ansible.builtin.apt:
+    name:
+      - php8.2-gd
+      - php8.2-cli
+      - php8.2-dev
+      - php8.2-fpm
+      - php8.2-zip
+      - php8.2-xml
+      - php8.2-curl
+      - php8.2-imap
+      - php8.2-soap
+      - php8.2-intl
+      - php8.2-mysql
+      - php8.2-redis
+      - php8.2-bcmath
+      - php8.2-common
+      - php8.2-xmlrpc
+      - php8.2-imagick
+      - php8.2-opcache
+      - php8.2-mbstring
+      - php8.2-readline
+      - php8.2-memcache
+      - php8.2-memcached
+      - php8.2-ldap
+      - php8.2-gmp
+      - php-pear
+      - libmagickcore-6.q16-3-extra # Support for SVG in php-imagick
+    state: latest
+    update_cache: true
   register: package_install
-  # The notify will call the ../handlers/main.yml
-  notify: service php7.1-fpm restart
+  tags: php, php_extensions
+
+- name: Setup PHP Files
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: "../templates/php/php.ini", dest: "/etc/php/8.2/fpm/" }
+  tags: php
+
+# Have to Enable proc_open, proc_close, escapeshellarg, putenv, popen, get_current_user, exec for wpcli
+- name: Tuning PHP CLI php.ini Variables
+  ansible.builtin.lineinfile:
+    dest: "{{ item.dest }}"
+    regexp: "^disable_functions"
+    backrefs: yes
+    line: "{{ item.line }}"
+  with_items:
+    - { dest: /etc/php/8.2/cli/php.ini, line: 'disable_functions= shell_exec,passthru,system,show_source,posix_kill,posix_mkfifo,posix_setpgid,posix_setsid,posix_setuid,posix_getpwuid,posix_uname,pclose,dl,disk_free_space,diskfreespace,disk_total_space,proc_nice,proc_terminate,symlink,link,escapeshellcmd,highlight_file,lchgrp,lchown,prog_get_status,getmypid,getmyuid,getmygid,getrusage,getmyinode,libxml_disable_entity_loader,pcntl_alarm,pcntl_fork,pcntl_waitpid,pcntl_wait,pcntl_wifexited,pcntl_wifstopped,pcntl_wifsignaled,pcntl_wifcontinued,pcntl_wexitstatus,pcntl_wtermsig,pcntl_wstopsig,pcntl_signal_dispatch,pcntl_get_last_error,pcntl_strerror,pcntl_sigprocmask,pcntl_sigwaitinfo,pcntl_sigtimedwait,pcntl_exec,pcntl_getpriority,pcntl_setpriority,opcache_get_configuration,opcache_get_status' }
+  tags: php
 
 - name: Creating PHP Log Directory
-  file:
+  ansible.builtin.file:
     path: /var/log/php/
     state: directory
     mode: 0755
   when: package_install.changed == True
+  tags: php
 
-- name: Tunning php.ini Variables
-  lineinfile:
-    dest: /etc/php/7.1/fpm/php.ini
-    regexp: "{{ item.regexp }}"
-    backrefs: yes
-    line: "{{ item.line }}"
-  with_items:
-    - { regexp: '^expose_php', line: 'expose_php = Off' }
-    - { regexp: '^post_max_size', line: 'post_max_size = 100M' }
-    - { regexp: '^upload_max_filesize', line: 'upload_max_filesize = 100M' }
-    - { regexp: '^max_execution_time', line: 'max_execution_time = 300' }
-    - { regexp: '^;date.timezone', line: 'date.timezone = UTC' }
-  when: package_install.changed == True
-
-- name: Changing PHP-FPM Log Location
-  lineinfile:
-    dest: /etc/php/7.1/fpm/php-fpm.conf
+- name: Changing PHP-FPM Log Location for PHP8.2
+  ansible.builtin.lineinfile:
+    dest: /etc/php/8.2/fpm/php-fpm.conf
     regexp: "{{ item.regexp }}"
     backrefs: yes
     line: "{{ item.line }}"
   with_items:
     - { regexp: '^error_log', line: 'error_log = /var/log/php/fpm.log' }
-    - { regexp: '^include=', line: 'include=/etc/php/7.1/fpm/pool.d/www.conf' }
-  when: package_install.changed == True
-  notify: service php7.1-fpm restart
+    - { regexp: '^include=', line: 'include=/etc/php/8.2/fpm/pool.d/*.conf' }
+  #notify: service php8.2-fpm stop
+  tags: php
 
-- name: Tunning PHP WWW Pool Variables
-  lineinfile:
-    dest: /etc/php/7.1/fpm/pool.d/www.conf
-    regexp: "{{ item.regexp }}"
-    backrefs: yes
-    line: "{{ item.line }}"
+- name: Checking /etc/php/www.conf File
+  ansible.builtin.stat:
+    path: /etc/php/www.conf
+  register: check_www_conf
+  tags: php
+
+- name: Remove Default PHP Pools
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
   with_items:
-    - { regexp: '^listen = ', line: 'listen = 127.0.0.1:9000' }
-    - { regexp: '^;ping.path', line: 'ping.path = /ping' }
-    - { regexp: '^;ping.response', line: 'ping.response = pong' }
-    - { regexp: '^;pm.status_path', line: 'pm.status_path = /status' }
-    - { regexp: '^;request_terminate_timeout', line: 'request_terminate_timeout = 300' }
-    - { regexp: '^pm = dynamic', line: 'pm = ondemand' }
-    - { regexp: '^;pm.max_requests', line: 'pm.max_requests = 250' }
-    - { regexp: '^pm.max_children', line: 'pm.max_children = 25' }
-    - { regexp: '^pm.start_servers', line: 'pm.start_servers = 15' }
-    - { regexp: '^pm.min_spare_servers', line: 'pm.min_spare_servers = 10' }
-    - { regexp: '^pm.max_spare_servers', line: 'pm.max_spare_servers = 20' }
-  when: package_install.changed == True
+    - /etc/php/8.2/fpm/pool.d/www.conf
+  when: check_www_conf.stat.islnk is not defined
+  tags: php
 
-- name: Creating PHP Debug Pool
-  shell: cp -av /etc/php/7.1/fpm/pool.d/www.conf /etc/php/7.1/fpm/pool.d/debug.conf
-#  Ansible Copy Module bug https://github.com/ansible/ansible/issues/14341#issuecomment-275057426
-#  copy:
-#    src: /etc/php/7.1/fpm/pool.d/www.conf
-#    dest: /etc/php/7.1/fpm/pool.d/debug.conf
-#    remote_src: true
-  when: package_install.changed == True
-
-- name: Tunning PHP Debug Pool Variables
-  lineinfile:
-    dest: /etc/php/7.1/fpm/pool.d/debug.conf
-    regexp: "{{ item.regexp }}"
-    backrefs: yes
-    line: "{{ item.line }}"
+- name: Setup PHP Production Pools
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
   with_items:
-    - { regexp: '^\[www\]', line: "[debug]" }
-    - { regexp: '^listen = 127.0.0.1:9000', line: 'listen = 127.0.0.1:9001' }
-    - { regexp: '^;slowlog', line: 'slowlog = /var/log/php/$pool.log.slow' }
-    - { regexp: '^;request_slowlog_timeout', line: 'request_slowlog_timeout = 10s' }
-    - { regexp: '^;php_admin_value\[memory_limit\]', line: ";php_admin_value[memory_limit] = 32M \nphp_admin_value[xdebug.profiler_output_dir] = /tmp/ \nphp_admin_value[xdebug.profiler_output_name] = cachegrind.out.%p-%H-%R \nphp_admin_flag[xdebug.profiler_enable_trigger] = on \nphp_admin_flag[xdebug.profiler_enable] = off" }
-  when: package_install.changed == True
+    - { src: "../templates/php/www.conf.j2", dest: "/etc/php/www.conf" }
+    - { src: "../templates/php/dummy8.2.conf.j2", dest: "/etc/php/dummy8.2.conf" }
+  tags: php
+
+- name: Set production php version
+  set_fact:
+    production_php: "8.2"
+  tags: php
+
+- debug: var={{ item }}
+  with_items:
+    - production_php
+  tags: php
+
+- name: Force PHP 8.2 on CLI
+  command: /usr/bin/update-alternatives --set php /usr/bin/php8.2
+  ignore_errors: true
+  tags: php
+
+- name: Enabling PHP Pools
+  file: src={{ item.src }} dest={{ item.dest }} state=link
+  with_items:
+    - { src: "/etc/php/www.conf", dest: "/etc/php/{{production_php}}/fpm/pool.d/www.conf" }
+    - { src: "/etc/php/dummy8.2.conf", dest: "/etc/php/8.2/fpm/pool.d/dummy8.2.conf" }
+  tags: php
+
+# Fix PDF previews with Imagick + Ghostscript
+- name: Fix PDF previews with Imagick Ghostscript
+  lineinfile:
+    path: /etc/ImageMagick-6/policy.xml
+    regexp: '<policy domain="coder" rights="none" pattern="PDF" />'
+    line: '<!-- <policy domain="coder" rights="none" pattern="PDF" /> -->'
+  tags: php
+
+- name: Execute service php8.2-fpm stop
+  service: name=php8.2-fpm state=stopped enabled=no
+  tags: php
+
+- name: Execute service php8.2-fpm restart
+  service: name=php8.2-fpm state=restarted enabled=yes
+  tags: php

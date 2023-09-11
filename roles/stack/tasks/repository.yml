@@ -1,0 +1,16 @@
+---
+- name: Adding Nginx Repository
+  apt_repository: repo=ppa:ondrej/nginx
+  tags: nginx
+
+- name: Adding PHP Repository
+  apt_repository: repo=ppa:ondrej/php
+  tags: php
+
+- name: Adding MariaDB Repository Key
+  apt_key: keyserver=keyserver.ubuntu.com id=0xF1656F24C74CD1D8
+  tags: mysql
+
+- name: Adding MariaDB Repository
+  apt_repository: repo='deb [arch=amd64] http://nyc2.mirrors.digitalocean.com/mariadb/repo/10.11/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} main' state=present filename=mariadb
+  tags: mysql

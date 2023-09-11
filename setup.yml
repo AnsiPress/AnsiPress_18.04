@@ -6,8 +6,8 @@
   roles:
     - bootstrap
     - security
-    - reboot
-#    - stack
+#    - reboot
+    - stack
 #    - user
 #    - website
 #    - print

@@ -1,12 +1,15 @@
 ---
 - name: service memcached restart
-  service: name=memcached state=restarted
+  ansible.builtin.service: name=memcached state=restarted
+
+- name: service nginx reload
+  ansible.builtin.service: name=nginx state=reloaded
 
 - name: service nginx restart
-  service: name=nginx state=restarted
+  ansible.builtin.service: name=nginx state=restarted
 
-- name: service php7.1-fpm restart
-  service: name=php7.1-fpm state=restarted
+- name: service php8.2-fpm restart
+  ansible.builtin.service: name=php8.2-fpm state=restarted
 
-- name: service mysql restart
-  service: name=mysql state=restarted
+- name: service mariadb restart
+  ansible.builtin.service: name=mariadb state=restarted

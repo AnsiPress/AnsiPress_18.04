@@ -1,44 +1,64 @@
 ---
 # Setup NGINX Stack
 
-- include: roles/stack/tasks/{{ ansible_distribution | lower }}/nginx_repo.yml
-
 - name: Installing NGINX
-  apt: name=nginx-pagespeed state=present
+  ansible.builtin.apt:
+    name:
+      - nginx
+    state: latest
+    update_cache: yes
   register: package_install
   # The notify will call the ../handlers/main.yml
   notify: service nginx restart
+  tags: nginx
 
-- name: Setup NGINX conf.d Files
-  copy:
-    src: ../templates/nginx/conf.d/
-    dest: /etc/nginx/conf.d/
-  when: package_install.changed == True
+- name: Setup NGINX Files
+  ansible.builtin.template: src={{ item.src }} dest={{ item.dest }}
+  with_items:
+    - { src: "../templates/nginx/nginx.conf", dest: "/etc/nginx/nginx.conf" }
+    - { src: "../templates/nginx/conf.d/realip.conf", dest: "/etc/nginx/conf.d/realip.conf" }
+    - { src: "../templates/nginx/conf.d/fastcgi.conf.j2", dest: "/etc/nginx/conf.d/fastcgi.conf" }
+  # The notify will call the ../handlers/main.yml
+  notify: service nginx reload
+  tags: nginx
 
-- name: Setup AnsiPress NGINX Files
-  copy:
-    src: ../templates/nginx/ansipress
-    dest: /etc/nginx/
-  when: package_install.changed == True
+- name: Setup NGINX Default Config Files
+  ansible.builtin.copy:
+    src: ../templates/nginx/ansipress/
+    dest: /etc/nginx/ansipress/
+  notify: service nginx reload
+  tags: nginx
 
-- name: Checking /etc/nginx/htpasswd File
-  stat:
-    path: /etc/nginx/htpasswd
-  register: setup_http_auth
+# one-time setup of stronger DH pem for nginx ssl forward secrecy (slow)
+#- name: Ensure openssl is installed.
+#  apt: name=openssl state=latest update_cache=yes
 
-# Gererate Random Password For HTTP AUTH
-- include: roles/libs/tasks/random_password.yml
-  when: setup_http_auth.stat.islnk is not defined
+- name: Generate Diffie-Hellman params for strong SSL.
+  ansible.builtin.command: "openssl dhparam -out '/etc/ssl/certs/dhparam.pem' 2048"
+  args:
+    creates: /etc/ssl/certs/dhparam.pem
+  tags: nginx
 
-- name: Setup HTTP AUTH
-  htpasswd:
-    path: /etc/nginx/htpasswd
-    name: AnsiPress
-    password: "{{ random_password.stdout }}"
-  when: setup_http_auth.stat.islnk is not defined
+# Default value of net.core.somaxconn, NGINX uses by default 511
+- name: Setup net.core.somaxconn and net.core.netdev_max_backlog in /etc/sysctl.conf
+  ansible.posix.sysctl:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    sysctl_set: yes
+  with_items:
+    - { name: "net.core.somaxconn", value: "4096" }
+    - { name: "net.core.netdev_max_backlog", value: "65535" }
+  tags: nginx, nginx_sysctl
 
-# Save the HTTP_AUTH_Password Value
-- name: Set HTTP_AUTH_Password Variable
-  set_fact:
-    http_auth_pass: "{{ random_password.stdout }}"
-  when: setup_http_auth.stat.islnk is not defined
+- name: Adjust Default Security Limit Max Open File
+  community.general.pam_limits:
+    domain: root
+    limit_type: "{{ item.limit_type }}"
+    limit_item: "{{ item.limit_item }}"
+    value: 65535
+  with_items:
+    - { limit_type: "soft", limit_item: "nproc" }
+    - { limit_type: "hard", limit_item: "nproc" }
+    - { limit_type: "soft", limit_item: "nofile" }
+    - { limit_type: "hard", limit_item: "nofile" }
+  tags: nginx, nginx_sysctl

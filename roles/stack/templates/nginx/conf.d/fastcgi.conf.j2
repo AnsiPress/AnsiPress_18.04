@@ -1,0 +1,20 @@
+# FastCGI
+fastcgi_cache_path /run/nginx-cache levels=1:2 keys_zone=WORDPRESS:100m inactive={{fastcgi_cache_time}} max_size=1g use_temp_path=off;
+fastcgi_cache_key "$scheme$request_method$host$request_uri";
+fastcgi_cache_lock on;
+fastcgi_cache_revalidate on;
+fastcgi_cache_background_update on;
+fastcgi_cache_use_stale error timeout invalid_header http_500;
+fastcgi_ignore_headers Cache-Control Expires Set-Cookie;
+# Microcaching
+fastcgi_cache_valid 301 404 60m;
+fastcgi_cache_valid 200 {{fastcgi_cache_time}};
+
+# change PHP timeouts
+fastcgi_connect_timeout 60;
+fastcgi_send_timeout 300;
+fastcgi_read_timeout 300;
+
+# FastCGI Buffers
+fastcgi_buffers 16 16k;
+fastcgi_buffer_size 32k;

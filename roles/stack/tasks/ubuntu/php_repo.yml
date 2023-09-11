@@ -1,9 +1,0 @@
----
-# Setup PHP Repository
-
-- name: Adding PHP Repository
-  apt_repository: repo=ppa:ondrej/php
-  register: repository
-
-- include: roles/libs/tasks/apt/update.yml
-  when: repository.changed == True or apt_key.changed == True

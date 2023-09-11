@@ -1,5 +1,6 @@
 ---
 # Install Memcached
 - name: Installing Memcached
-  apt: name=memcached state=present
+  ansible.builtin.apt: name=memcached state=latest
   notify: service memcached restart
+  tags: memcached

@@ -3,5 +3,5 @@
 - name: Executing apt-get dist-upgrade command
   ansible.builtin.apt: upgrade=dist update_cache=yes
   retries: 5
-  delay: 2
+  delay: 5
   tags: package_upgrade

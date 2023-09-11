@@ -1,0 +1,41 @@
+[mysqld]
+port                           = 3306
+user                           = mysql
+character_set_server           = utf8mb4
+collation_server               = utf8mb4_unicode_520_ci
+performance_schema             = on
+skip_name_resolve
+
+# SAFETY #
+max_allowed_packet             = 128M
+max_connect_errors             = 1000000
+
+# CACHES AND LIMITS #
+tmp_table_size                 = 32M
+max_heap_table_size            = 32M
+query_cache_type               = 0
+query_cache_size               = 0
+max_connections                = {{ max_connections }}
+wait_timeout                   = 600
+interactive_timeout            = 600
+thread_cache_size              = 50
+open_files_limit               = 65535
+table_definition_cache         = 4096
+table_open_cache               = 4096
+
+# INNODB #
+innodb_flush_method            = O_DIRECT
+innodb_log_files_in_group      = 2
+innodb_log_file_size           = 64M
+innodb_flush_log_at_trx_commit = 1
+innodb_file_per_table          = 1
+innodb_buffer_pool_size        = {{ innodb_buffer_pool_size }}
+innodb_buffer_pool_instances   = {{ innodb_buffer_pool_instances }}
+
+# Logging #
+log_error                      = /var/log/mysql/error.log
+long_query_time                = 1
+log_queries_not_using_indexes  = 1
+#slow_query_log                 = 1
+#slow_query_log_file            = /var/log/mysql/mysql_slow.log
+expire_logs_days               = 10

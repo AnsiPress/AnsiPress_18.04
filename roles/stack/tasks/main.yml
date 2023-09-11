@@ -1,16 +1,6 @@
 ---
-- include: roles/stack/tasks/memcached.yml
-
-- name: Checking NGINX Stack Required
-  set_fact: stack="nginx"
-  when: website_type == "html"
-
-- name: Checking PHP Stack Required
-  set_fact: stack="php"
-  when: website_type == "php"
-
-- name: Checking MySQL Stack Required
-  set_fact: stack="mysql"
-  when: website_type == "mysql" or website_type == "wp" or website_type == "w3tc" or website_type == "wpfc"
-
-- include: roles/stack/tasks/{{ stack }}.yml
+- ansible.builtin.import_tasks: roles/stack/tasks/repository.yml
+- ansible.builtin.import_tasks: roles/stack/tasks/memcached.yml
+- ansible.builtin.import_tasks: roles/stack/tasks/nginx.yml
+- ansible.builtin.import_tasks: roles/stack/tasks/php.yml
+- ansible.builtin.import_tasks: roles/stack/tasks/mariadb.yml
