@@ -18,6 +18,7 @@
     - { src: "../templates/nginx/nginx.conf", dest: "/etc/nginx/nginx.conf" }
     - { src: "../templates/nginx/conf.d/realip.conf", dest: "/etc/nginx/conf.d/realip.conf" }
     - { src: "../templates/nginx/conf.d/fastcgi.conf.j2", dest: "/etc/nginx/conf.d/fastcgi.conf" }
+    - { src: "../templates/nginx/conf.d/brotli.conf", dest: "/etc/nginx/conf.d/brotli.conf" }
   # The notify will call the ../handlers/main.yml
   notify: service nginx reload
   tags: nginx
